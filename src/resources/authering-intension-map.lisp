@@ -36,7 +36,7 @@
 				  "let html = intentList();document.write(html);"))
 			   (:div :class "tab-pane fade" :id "slides"
 				 (:div :id "nestable"
-				       ,(slide (get-parameter "lesson-id"))))
+				       ,(slide-getter (get-parameter "lesson-id"))))
 			   (:div :style "clear:both;"))))
 	 (:button :class "finish-declare-btn" "Finish to Presentation Design Task") ;;終了宣言ボタン
 	 (:button :type "button" :onclick "saveDatas();" "SAVE") ;;コンセプトマップのセーブボタン
@@ -106,7 +106,7 @@
 ;;     (push :div code)))
 
 
-(defun slide (lesson-id)
+(defun slide-getter (lesson-id)
   (let* ((code nil)
 	 (domain-id (cadar (select "domain_id" "lessons" (format nil "lesson_id=\"~A\"" lesson-id))))
 	 (slide-pathname (mapcar #'cadr (select "slide_path" "domain_slide" (format nil "domain_id=\"~A\"" domain-id)))))

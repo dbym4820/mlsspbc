@@ -67,7 +67,7 @@
 (defun slides-kma (lesson-id slide-number)
   (let ((code nil))
     (loop for x in (get-lesson-slides-list lesson-id) ;; get-slide-pathname2 lesson-id)
-	  do (push `((:img :id ,(first x) :class "slide-kma" :src ,(first x) :width "400" :height "300" :style "border: 1px black solid") ,(second x)) code))
+	  do (push `((:img :id ,(first x) :class "slide-kma" :src ,(append-root-url (first x)) :width "400" :height "300" :style "border: 1px black solid") ,(second x)) code))
     `,(nth
        (if (stringp slide-number)
 	   (parse-integer slide-number)
