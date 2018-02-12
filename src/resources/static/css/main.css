@@ -1,0 +1,89 @@
+@charset "UTF-8";
+
+body {
+    background-color:#C5C5C5;
+}
+
+#dom-select a {
+    color: black;
+    text-decoration: underline
+}
+
+#container{
+    overflow: hidden;
+}
+
+#m-window{
+    width:100%;
+    height:1000px;
+    overflow:hidden;
+}
+
+#b-window {
+    overflow: scroll;
+    background-color:#C5C5C5;
+    height: 1000px;
+    max-height: 1000px;
+    min-height: 1000px;
+    width:80%;
+    float:left;
+}
+
+#c-window {
+    background-color:#C5C5C5;
+    height: 1000px;
+    max-height: 1000px;
+    min-height:1000px;
+    overflow: hidden;
+    width:20%;
+}
+
+.introjs-tooltiptext{
+    text-align:left;
+}
+
+#myTabContent {
+    background-color:#F8F8F8;
+    height: 1000px;
+    overflow:scroll;
+}
+
+#trashbox {
+    width: 50px;
+    height: 50px;
+    margin-right: 50px;
+    float: left;
+}
+
+#trashbox:hover {
+     -webkit-filter: grayscale(100%) blur(2px);
+     -moz-filter: grayscale(100%) blur(2px);
+     -o-filter: grayscale(100%) blur(2px);
+     -ms-filter: grayscale(100%) blur(2px);
+     filter: grayscale(100%) blur(2px);
+}
+
+div.clear-float {
+    clear: both;
+}
+
+
+button.finish-declare-btn{
+/* 文字サイズを1.4emに指定 */
+    font-size: 1.4em;
+    /* 文字の太さをboldに指定 */
+    font-weight: bold;
+    padding: 10px 30px;
+    background-color: #248;
+    color: #fff;
+    border-style: none;
+}
+
+.login-indicater {
+    font-size: 2em;
+}
+
+div#declare-time-slide-highlight{
+
+    padding-top: 50px;
+}

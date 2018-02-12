@@ -1,0 +1,211 @@
+@charset "UTF-8";
+
+.node {
+    stroke: #fff;
+    stroke-width: 1.5px;
+}
+.link {
+    stroke: #999;
+    stroke-opacity: .6;
+}
+
+.dropped-box {
+    margin:10px;
+    max-heigth:80px;
+    min-height:60px;
+    min-width:130px;
+    height:80;
+    overflow:scroll;
+}
+
+.dropped-box-slide {
+    margin:10px;
+    max-heigth:80px;
+    min-height:60px;
+    min-width:130px;
+    height:80;
+    overflow:scroll;
+}
+
+/* ノードの中のテキストDivの範囲 */
+.node-content-square {
+    margin:10px;
+    max-heigth:80px;
+    min-height:50px;
+    min-width:90px;
+    height:50;
+    overflow:scroll;
+    font-size: 2px;
+    margin-top: 18px;
+    margin-left: 4px;
+}
+
+/* テキストDivのノード本体 */
+.node-content {
+    text-align: left;
+    font-size : 8px;
+    line-height: 17px;
+    font-weight: italic;
+    min-height: 45px; /* ノードの大きさの   */
+    max-height: 45px; /* ノードの大きさの   */
+    overflow: scroll;
+    float:left;
+    margin-right: 30px;
+    margin-bottom: 5px;
+    width: 90px;
+}
+
+/* スライドDivのノード本体 */
+.slide-node-content {
+    min-height: 55px;
+    max-height: 100px;
+    overflow: scroll;
+}
+
+
+
+/**************************************************/
+/* ノードの上に位置するボタンボックス */
+.above-buttom {
+    height: 15px;
+    width: auto;
+    position: absolute;
+}
+
+/* 下にノードを作るボタン */
+.add-node-above-div {
+    display: inline-block;
+    position: absolute;
+    left: 0px;
+    height: 10px;
+    width: 10px;
+}
+
+.add-node-above {
+    font-size: 7px;
+}
+
+
+/* 上にノードを作るボタン */
+.add-node-bottom-div  {
+    display: inline-block;
+    position: absolute;
+    left: 18px;    
+    width: 10px;
+    height: 10px;
+}
+
+.add-org-chart-node {
+    font-size: 7px;
+}
+
+/* ノードを削除するボタン */
+.remove-btn-div {
+    display: inline-block;
+    position: absolute;
+    left: 80px;
+    height: 10px;
+    width: 10px;
+}
+
+.remove-btn-div1 {
+    display: inline-block;
+    position: absolute;
+    left: 100px;
+    height: 10px;
+    width: 10px;
+}
+
+.remove-org-chart-node {
+    font-size: 7px;
+}
+
+/**************************************************/
+/* ノードの下に付くボタンボックス */
+
+.bottom-buttom {
+    height: 15px;
+    width: auto;
+    position: relative;
+    top: -14px;
+    /* top: 20px; */
+    /* left: 20px; */
+}
+
+/* ノードについて編集するボタン */
+.edit-btn {
+    display: inline-block;
+    position: absolute;
+    left: 0px;
+    height: 10px;
+    width: 10px;
+}
+
+.edit-node {
+    width: 15px;
+    height: 18px;
+}
+
+.btn-img-content-l2 {
+    width: 10px;
+    height: 10px;
+    margin-left: -5px;
+    margin-top: -10px;
+}
+
+/* 線を引くボタン */
+.make-line-btn {
+    display: inline-block;
+    position: absolute;
+    right: 7px;
+    height: 10px;
+    width: 10px;
+}
+
+.nodes-line {
+    width: 15px;
+    height: 18px;
+}
+
+.btn-img-content-r2 {
+    width: 10px;
+    height: 10px;
+    margin-left: -5px;
+    margin-top: -10px;
+}
+
+
+/*************************************************************/
+
+
+.side-line {
+    position: absolute;
+    /* border-top: solid 1px #FF4981; */
+    border-top: dashed 1px black;
+    /* -moz-transform-origin:0% 0%; */
+    /* -webkit-transform-origin:0% 0%; */
+    /* transform-origin:0% 0%; */
+    float: left;
+    /* padding: 20px; */
+}
+
+.side-line:hover {
+    cursor: move;
+    z-index:5;
+    border-top: none;
+}
+
+
+p.line-attr-parent {
+    text-align: left;
+    margin-top: -50px;
+    font-size: 3em;
+    z-index:-1;
+}
+
+
+p.line-attr-child {
+    text-align: right;
+    margin-top: -50px;
+    font-size: 3em;
+}
