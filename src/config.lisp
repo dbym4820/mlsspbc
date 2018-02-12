@@ -28,9 +28,9 @@
     `(:path-to-database ,(append-root-url (format nil "~A~A" (pathname (merge-pathnames #P"src/databases/" *application-root*)) "database.sqlite"))
       :application-root ,*application-root*
       :document-root ,(merge-pathnames #P"src/resources/" *application-root*)
-      :document-path ,(append-root-url (namestring (merge-pathnames #P"src/resources/" *application-root*)))
+      :document-path ,(namestring (merge-pathnames #P"src/resources/" *application-root*))
       :static-directory ,(merge-pathnames #P"src/resources/static/" *application-root*)
-      :static-path ,(append-root-url (namestring (merge-pathnames #P"src/resources/static/" *application-root*)))
+      :static-path ,(namestring (merge-pathnames #P"src/resources/static/" *application-root*))
       :app-port 8000))
 
 (defconfig |development|
