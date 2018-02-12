@@ -25,7 +25,7 @@
 ;;; http://localhost:8000/
 @export
 (defun root-url ()
-  (format nil "http://~A~A" (request-host) (append-root-url "/")))
+  (format nil "http://~A~A" (request-host) "/"));;(append-root-url "/")))
 
 ;;; http://localhost:8000/index
 @export
