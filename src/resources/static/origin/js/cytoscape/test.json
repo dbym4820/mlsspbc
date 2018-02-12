@@ -1,0 +1,27 @@
+{
+    "element":[
+	{
+	    group: "nodes",
+	    data: { id: 'sample' }
+	},
+	{
+	    group: "nodes",
+	    data: { id: 'b', label: 'babel' }
+	},
+	{
+	    group: "nodes",
+	    data: { id: 'c' }
+	},
+	{
+	    group: "edges",
+	    data: { id: 'a-b', source: 'sample', target: 'b' }
+	},
+	{
+	    group: "edges",
+	    data: { id: 'ab-c', source: 'sample', target: 'c' }
+	},
+	{
+	    group: "edges",
+	    data: { id: 'b-c', source: 'b', target: 'c' }
+	}]
+}

@@ -39,7 +39,7 @@
   (let ((code nil))
     (loop for x in (exist-domain-list)
 	  do (push `(:li :style "font-size: 2em;margin-bottom:10px;"
-			 (:a :href ,(format nil "/lesson-create?domain-id=~A" (first x))
+			 (:a :href ,(append-root-url (format nil "/lesson-create?domain-id=~A" (first x)))
 			     ,(format nil "~A" (second x))))
 		   code))
     (push :ul code)

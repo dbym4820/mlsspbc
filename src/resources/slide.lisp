@@ -44,9 +44,9 @@
     (loop for x in (mapcar #'car (get-lesson-slides-list lesson-id))
 	  for y from 0
 	  do (if (= y kma-number)
-		 (push `(:a :href ,(format nil "/learner/learner-kma?lesson-id=~A&kma=~A" lesson-id y)
+		 (push `(:a :href ,(append-root-url (format nil "/learner/learner-kma?lesson-id=~A&kma=~A" lesson-id y))
 			     (:img :class "slide-kma highlighted-slide" :src ,x :width "100" :height "80" :style "border: 1px black solid")) code)
-		 (push `(:a :href ,(format nil "/learner/learner-kma?lesson-id=~A&kma=~A" lesson-id y)
+		 (push `(:a :href ,(append-root-url (format nil "/learner/learner-kma?lesson-id=~A&kma=~A" lesson-id y))
 			    (:img :class "slide-kma" :src ,x :width "80" :height "60" :style "border: 1px black solid")) code))
 	  do (if (= 1 (mod y 15))
 		 (push `(:div :style "clear:both;") code))

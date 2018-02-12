@@ -1,0 +1,142 @@
+div.orgChart {
+    height: 100%;
+    margin : 5px;
+    padding : 10px;
+}
+
+div.orgChart table {
+    width : 100%;
+}
+
+div.orgChart tr.lines td.line {
+    width : 5px;
+    height : 20px;
+    
+}
+
+div.orgChart tr.lines td.top { border-top : 1px dashed black; }
+
+div.orgChart tr.lines td.left { border-right : 1px dashed black; }
+
+div.orgChart tr.lines td.right { border-left : 1px dashed black; }
+
+div.orgChart tr.lines td.half { width : 50%; }
+
+div.orgChart td {
+    text-align : center;
+    vertical-align : top;
+    padding : 0px 2px;
+}
+
+div.orgChart div.node:hover {
+    /* background: #4484ED; */
+    border: 2px solid #FF0000;
+}
+
+div.orgChart div.node:active {
+    /* background: #4484ED; */
+    /* min-width: 120px; */
+    /* min-height: 80px; */
+    /* width: 145px; */
+    /* height: 95px; */
+
+}
+
+div.orgChart div.node {
+    cursor : pointer;
+    border : 1px solid #e7e7e7;
+    display : inline-block;
+    min-width: 100px;
+    min-height: 85px;
+    width: 100px;
+    height: 85px;
+    z-index: 4;
+    /* width : 180px; */
+    /* height : 100px; */
+    background: #F5A9A9; /* Old browsers */
+    background: -moz-linear-gradient(top, #F5A9A9 0%, #F5A9A9 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #F5A9A9), color-stop(100%, ##F5A9A9)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #F5A9A9 0%, ##F5A9A9 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #F5A9A9 0%, ##F5A9A9 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #F5A9A9 0%, ##F5A9A9 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #F5A9A9 0%, ##F5A9A9 100%); /* W3C */
+    line-height : 1.3em;
+    border-radius : 4px;
+    -moz-border-radius : 4px;
+    -webkit-border-radius : 4px;
+    position: relative;
+    top: 2px;
+    box-shadow: 1px 1px 0px #ddd;
+}
+
+
+div.orgChart div.slide-node {
+    cursor : pointer;
+    border : 1px solid blue;
+    display : inline-block;
+    min-width: 120px;
+    min-height: 135px;
+    width: 120px;
+    height: 135px;
+    z-index: 4;
+    /* width : 180px; */
+    /* height : 100px; */
+    background: #87cefa; /* Old browsers */
+    background: -moz-linear-gradient(top, #87cefa 0%, #87cefa 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #87cefa), color-stop(100%, ##87cefa)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #87cefa 0%, ##87cefa 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #87cefa 0%, ##87cefa 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #87cefa 0%, ##87cefa 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #87cefa 0%, ##87cefa 100%); /* W3C */
+    line-height : 1.3em;
+    border-radius : 4px;
+    -moz-border-radius : 4px;
+    -webkit-border-radius : 4px;
+    position: relative;
+    box-shadow: 1px 1px 0px #ddd;
+}
+
+
+/* プレゼン設計エリアの設定 */
+#orgChart{
+    position: relative;
+    /* width: auto; */
+    height: 1000px;
+    /*height: 850px; */
+}
+
+#orgChartContainer{
+    position: relative;
+    background-color: #F7F2E0;
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+    /* border: 1px solid black; */
+}
+
+
+.clBtn{
+    text-align: center;
+    width:120px;
+    height:35px;
+    background-color:#333;
+    color:#fff;
+    font-weight:bold;
+    margin:20px auto;
+    line-height:2.2em;
+    cursor:pointer;
+    float:left;
+    margin-right: 10px;
+}
+.clBtn:hover{
+    width:120px;
+    height:35px;
+    background-color:#666;
+    color:#fff;
+    font-weight:bold;
+    margin:20px auto;
+    line-height:2.2em;
+    cursor:pointer;
+    float:left;
+    margin-right: 10px;
+}

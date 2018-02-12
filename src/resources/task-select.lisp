@@ -8,27 +8,27 @@
 	 (:div :class "honeycombs"
 	       ,(cond ((string= "teacher" (session-value 'user-role))
 		       `(:div
-			 (:a :class "comb" :href ,(format nil "/authering/authering-intension-map?lesson-id=~A" (get-parameter "lesson-id")) :style "float:left;"
+			 (:a :class "comb" :href ,(append-root-url (format nil "/authering/authering-intension-map?lesson-id=~A" (get-parameter "lesson-id"))) :style "float:left;"
 			     (:div :class "front-content"
 				   (:p "正解のプレゼンを<br />設計する"))
 			     (:div :class "back-content"
 				   (:p "正解のプレゼンを<br />設計する")))
-			 (:a :class "comb" :href ,(format nil "/authering/authering-slide?lesson-id=~A" (get-parameter "lesson-id")) :style "float:left;"
+			 (:a :class "comb" :href ,(append-root-url (format nil "/authering/authering-slide?lesson-id=~A" (get-parameter "lesson-id"))) :style "float:left;"
 			     (:div :class "front-content"
 				   (:p "スライドを<br />アップロードする"))
 			     (:div :class "back-content"
 				   (:p "スライドを<br />アップロードする")))
-			 (:a :class "comb" :href ,(format nil "/authering/authering-slide-check?lesson-id=~A&kma=0" (get-parameter "lesson-id")) :style "float:left;"
+			 (:a :class "comb" :href ,(append-root-url (format nil "/authering/authering-slide-check?lesson-id=~A&kma=0" (get-parameter "lesson-id"))) :style "float:left;"
 			     (:div :class "front-content"
 				   (:p "スライドを<br />確認する"))
 			     (:div :class "back-content"
 				   (:p "スライドを<br />確認する")))
-			 (:a :class "comb" :href ,(format nil "/authering/knowledge-operate?lesson-id=~A" (get-parameter "lesson-id")) :style "float:left;"
+			 (:a :class "comb" :href ,(append-root-url (format nil "/authering/knowledge-operate?lesson-id=~A" (get-parameter "lesson-id"))) :style "float:left;"
 			     (:div :class "front-content"
 				   (:p "領域知識を<br />規定する"))
 			     (:div :class "back-content"
 				   (:p "領域知識を<br />規定する")))
-			 (:a :class "comb" :href ,(format nil "#") :style "float:left;"
+			 (:a :class "comb" :href ,(append-root-url (format nil "#")) :style "float:left;"
 			     (:div :class "front-content"
 				   (:p "学習者を<br />課題に追加する"))
 			     (:div :class "back-content"
@@ -40,12 +40,12 @@
 		      ;; 		 (:p "学習目標語彙を設計する")))
 		      ((or (string= "learner" (session-value 'user-role)) (string= "teacher" (session-value 'user-role)))
 		       `(:div :style "clear:both;"
-			 (:a :class "comb" :href ,(format nil "/learner/learner-kma?lesson-id=~A&kma=0" (get-parameter "lesson-id")) :style "float:left;"
+			 (:a :class "comb" :href ,(append-root-url (format nil "/learner/learner-kma?lesson-id=~A&kma=0" (get-parameter "lesson-id"))) :style "float:left;"
 			     (:div :class "front-content"
 				   (:p "理解を<br />表明する"))
 			     (:div :class "back-content"
 				   (:p "理解を<br />表明する")))
-			 (:a :class "comb" :href ,(format nil "/learner/learner-planning?lesson-id=~A" (get-parameter "lesson-id"))  :style "float:left;"
+			 (:a :class "comb" :href ,(append-root-url (format nil "/learner/learner-planning?lesson-id=~A" (get-parameter "lesson-id")))  :style "float:left;"
 			     (:div :class "front-content"
 				   (:p "プレゼンを<br />設計する"))
 			     (:div :class "back-content"

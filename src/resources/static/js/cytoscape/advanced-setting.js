@@ -84,7 +84,7 @@ $(window).load(function (){
     callKnowledge = function(cytoObj) {
 	console.log("start-before");
 	//console.log(cytoObj);
-	let result = $.getJSON("/static/js/cytoscape/test.json", function(json){
+	let result = $.getJSON("/software/aburatani/static/js/cytoscape/test.json", function(json){
 	    alert("start-inner:");
 	    // cytoObj.add([
 	    // 	{ group: "nodes", data: { id: "n0" }, position: { x: 100, y: 100 } },

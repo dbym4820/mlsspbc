@@ -1,0 +1,26 @@
+#loaded {
+    display:none;
+}
+
+#loading {
+    position: absolute;
+    left: 50%;
+    top: 20%;
+    margin-left: -30px;
+}
+
+
+
+#container {
+    overflow: hidden;
+}
+
+#slide-bar{
+    background-color: #f5f5f5;
+    border-radius: 10px 10px 10px 10px;
+    overflow: auto;
+    border: 1px solid black;
+    padding: 10px;
+    margin: 20px 20px 10px 10px;
+}
+

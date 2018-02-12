@@ -2,10 +2,10 @@
 
 (defpage-no-redirect sign-up ()
   `(:div :id "reg"
-	 (:form :action "/register-process" :method "post" :class "register"
+	 (:form :action ,(append-root-url "/register-process") :method "post" :class "register"
 		(:h1 :style "float:left" "Account Registration")
 		(:div :style "text-align: right;margin-top:5px;margin-right:10px;"
-				 (:a :href "/" "TOPへ戻る"))
+				 (:a :href ,(append-root-url "/") "TOPへ戻る"))
 		(:fieldset :class "row1"
 			   (:legend "Account Details")
 			   (:div :style "text-align:center;font-size:2.5em;color:red;"
@@ -114,4 +114,4 @@
 			   ))
 	 (:p)
 	 (:div :style "background-color:white;border:1px solid black;width:700px;margin-right:auto;margin-left:auto;overflow:scroll;"
-	       (:iframe :src "/static/terms/terms-of-service-ja.html" :width "700px" :height "300px"))))
+	       (:iframe :src ,(append-root-url "/static/terms/terms-of-service-ja.html") :width "700px" :height "300px"))))

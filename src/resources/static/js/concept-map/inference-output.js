@@ -3,7 +3,7 @@
 function inferenceOutput(){
     $.ajax({
 	type: 'GET',
-        url: '/inference-output',
+        url: '/software/aburatani/inference-output',
         dataType: 'text',
         success: function(data) {
             alert(data);

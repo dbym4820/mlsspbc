@@ -59,8 +59,8 @@
 		     (:button :type "button" :class "btn btn-primary" :data-dismiss "modal" :id "modal-save" "保存")))
 	 (:br)
 	 (:br)
-	 (:script :type "text/javascript" :src "/static/js/window-setting/redirect.js")
-	 (:script :type "text/javascript" :src "/static/js/split-js/setting.js")
+	 (:script :type "text/javascript" :src ,(append-root-url "/static/js/window-setting/redirect.js"))
+	 (:script :type "text/javascript" :src ,(append-root-url "/static/js/split-js/setting.js"))
 	 (:script :type "text/javascript" :src ,(js-path "sigma/advanced-setting.js"))))
 
 (defun slide-source ()  

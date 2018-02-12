@@ -28,8 +28,8 @@
 				 (:br)
 				 (:div :id "print-pointer-position"
 				       (:p "X: " (:span :id "pointer-position-x") "px, Y: " (:span :id "pointer-position-y") "px"))
-				 (:img :id "trashbox" :src "/static/image/menu/trashbox.png")
-				 (:form :id "add-intent-form" :method "post" :action "/add-intent-list"
+				 (:img :id "trashbox" :src ,(append-root-url "/static/image/menu/trashbox.png"))
+				 (:form :id "add-intent-form" :method "post" :action ,(append-root-url "/add-intent-list")
 					(:input :type "text" :name "newintent" :placeholder "新しくインテンションを追加する") (:br)
 					(:input :type "submit" :value "追加" :onclick ""))
 				 (:div :class "clear-float")

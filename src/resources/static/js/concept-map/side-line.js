@@ -146,7 +146,7 @@ function makeLine1(node_Id) {
 function saveLineList(parent, child, functor){
     let newLineStr = "{\"parent\":\""+parent+"\",\"child\":\""+child+"\",\"function\":\""+functor+"\"}";
     let jsonObject = "[";
-    $.getJSON("/load-slide-line-list", function(data) {
+    $.getJSON("/software/aburatani/load-slide-line-list", function(data) {
 	let dataLen = data.length;
 	if(dataLen != 0){
 	    for(let i=0; i<=dataLen-1; i++){
@@ -158,7 +158,7 @@ function saveLineList(parent, child, functor){
 	jsonObject += newLineStr + "]";
 	$.ajax({
     	    type: 'POST',
-    	    url: '/save-side-line-list',
+    	    url: '/software/aburatani/save-side-line-list',
     	    dataType: 'text',
     	    data:{ dat: jsonObject},
 	}).done(function(data){

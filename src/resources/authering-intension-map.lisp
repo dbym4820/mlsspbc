@@ -12,7 +12,7 @@
 		     (:div :id "print-pointer-position"
 			   (:p "X: " (:span :id "pointer-position-x") "px, Y: " (:span :id "pointer-position-y") "px"))
 		     ;; (:img :id "trashbox" :src "/static/image/menu/trashbox.png")
-		     (:form :id "add-intent-form" :method "post" :action "/add-intent-list"
+		     (:form :id "add-intent-form" :method "post" :action ,(append-root-url "/add-intent-list")
 			    (:input :type "hidden" :name "lesson-id" :value ,(format nil "~A" (get-parameter "lesson-id")))
 			    (:input :type "text" :name "newintent" :placeholder "新しくインテンションを追加する" :style "width:500px; height:40px;") (:br)
 			    (:input :type "submit" :value "追加"))
@@ -66,8 +66,8 @@
 		     (:button :type "button" :class "btn btn-primary" :data-dismiss "modal" :id "modal-save" "保存")))
 	 (:br)
 	 (:br)
-	 (:script :type "text/javascript" :src "/static/js/window-setting/redirect.js")
-	 (:script :type "text/javascript" :src "/static/js/split-js/setting.js")
+	 (:script :type "text/javascript" :src ,(append-root-url "/static/js/window-setting/redirect.js"))
+	 (:script :type "text/javascript" :src ,(append-root-url "/static/js/split-js/setting.js"))
 	 (:script :type "text/javascript" :src ,(js-path "sigma/advanced-setting.js"))))
 
 

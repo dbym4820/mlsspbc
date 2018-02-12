@@ -2,7 +2,7 @@
 
 (defpage knowledge-operate ()
   `(:div
-    (:form :action "/knowledge-save" :method "get"
+    (:form :action ,(append-root-url "/knowledge-save") :method "get"
 	   (:label "Knowledge: "
 		   (:input :type "text" :name "know" :placeholder "knowledge" :style "width:1000"))
 	   (:input :type "hidden" :name "lesson-id" :value ,(get-parameter "lesson-id"))

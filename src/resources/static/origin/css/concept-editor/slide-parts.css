@@ -1,0 +1,28 @@
+div#slide-area {
+    border: 1px solid black;    
+}
+
+
+img.slide-image {
+    width: 100px;
+    height: 100px;
+    /* padding: 10px; */
+    margin: 10px;
+    overflow:scroll;
+    float:left;
+}
+
+button.slide-image:hover {
+    background-color:black;
+}
+
+button.slide-image:active {
+    background-color:blue;
+}
+
+#slide-rows{
+    /* align-content: center; */
+    overflow: scroll;
+    float:left;
+    width:500px;
+}

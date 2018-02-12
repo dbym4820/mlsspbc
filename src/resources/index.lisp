@@ -18,12 +18,12 @@
 	 ,(let ((urole (session-value 'user-role)))
 	    (cond ((string= urole "learner")
 		   `(:div
-		     (:a :href "/lesson-create-page" (:p :style "font-size:2em" "新しい課題を始める"))))
+		     (:a :href ,(append-root-url "/lesson-create-page") (:p :style "font-size:2em" "新しい課題を始める"))))
 		  ((string= urole "teacher")
 		   `(:ul
 		     (:hr)
 		     (:li :style "font-size: 2em;"
-			  (:a :href "/domain-create-page" "新しい学習ドメインを規定する"))))))))
+			  (:a :href ,(append-root-url "/domain-create-page") "新しい学習ドメインを規定する"))))))))
 
 
 (defun get-lesson-id (user-id)
@@ -38,7 +38,7 @@
   (let ((code nil))
     (loop for x in (get-lesson-id user-id)
 	  do (push `(:li :style "font-size: 2em;margin-bottom:10px;"
-		     (:a :href ,(format nil "/domain-select?lesson-id=~A" x)
+		     (:a :href ,(append-root-url (format nil "/domain-select?lesson-id=~A" x))
 			 ,(format nil "~A" (get-lesson-name x))))
 		   code))
     (push :ul code)
@@ -55,7 +55,7 @@
   (let ((code nil))
     (loop for x in (get-all-lesson-name-list)
 	  do (push `(:li :style "font-size: 2em;margin-bottom:10px;"
-		     (:a :href ,(format nil "/domain-select?lesson-id=~A" (second x))
+		     (:a :href ,(append-root-url (format nil "/domain-select?lesson-id=~A" (second x)))
 			 ,(format nil "~A" (first x))))
 		   code))
     (push :ul code)

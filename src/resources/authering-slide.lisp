@@ -1,7 +1,7 @@
 (in-package :mlsspbc.resources)
 
 (defpage authering-slide ()
-  `(:form :action ,(format nil "/authering/upload-slide?lesson-id=~A" (get-parameter "lesson-id")) :method "post" :enctype "multipart/form-data"
+  `(:form :action ,(append-root-url (format nil "/authering/upload-slide?lesson-id=~A" (get-parameter "lesson-id"))) :method "post" :enctype "multipart/form-data"
 	  (:input :type "file" :name "input_file" :multiple "multiple")
 	  (:input :type "submit" :value "send")))
    
@@ -61,7 +61,7 @@
 		   (:div :style "float:left"
 			 ,(first (kma-authering-slide lesson-id kma)))
 		   (:div :style "float:left; padding-left: 30px"
-			 (:form :style "font-size: 2em" :action "/authering-kma-save" :method "get"
+			 (:form :style "font-size: 2em" :action ,(append-root-url "/authering-kma-save") :method "get"
 				(:input :type "hidden" :name "slide-id" :value ,(second (kma-authering-slide lesson-id kma)))
 				(:input :type "hidden" :name "lesson-id" :value ,(format nil "~A" lesson-id))
 				(:input :type "hidden" :name "kma" :value ,(format nil "~A" (1+ (parse-integer kma))))
@@ -91,7 +91,7 @@
 			 (:div :id "declare-time-slide-highlight"
 			       ,(slide-row-list lesson-id (parse-integer kma))
 			       )))))
-	(:script :type"text/javascript" :src "/static/js/window-setting/redirect.js")))
+	(:script :type"text/javascript" :src ,(append-root-url "/static/js/window-setting/redirect.js"))))
 
 (defun authering-kma-save ()
   (let ((lesson-id (get-parameter "lesson-id"))

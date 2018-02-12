@@ -3,7 +3,8 @@
   (:use :cl :hunchentoot)
   (:nicknames :slm)
   (:import-from :mlsspbc.config
-                :config)
+                :config
+		:set-root-url)
   (:import-from :hunchentoot
                 :*default-content-type*
 		:easy-acceptor 
@@ -46,12 +47,14 @@
 (defun get-server (port)
   (cdaar (remove-if-not #'(lambda (dat) (equal (cdr (second dat)) port)) *server-list*)))
 
+
 @export
-(defun start-system (&optional (port 8000))
+(defun start-system (&optional (port 8000) (root-url ""))
   (cond ((running-p port) ;; When it has been running that port
 	 (format t "~A ~S~%" "New Hunchentoot process can't launched by using port:" port))
 	(t ;; When the port hasn't been running now
 	 (dispatcher)
+	 (set-root-url root-url)
 	 (let ((server (make-server port)))
 	   (add-server server)
 	   (start server)

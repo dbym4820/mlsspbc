@@ -10,7 +10,7 @@
                 :send-query
 		:select :update :insert :sql-delete)
   (:import-from :mlsspbc.config
-                :config)
+                :config :append-root-url)
   (:import-from :mlsspbc.utils
                 :replace-all-string)
   (:import-from :mlsspbc.web-utils

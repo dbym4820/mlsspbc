@@ -46,7 +46,7 @@ function s(){
     var lessonId = getUrlVars()["lesson-id"];
     $.ajax({
     	type: 'POST',
-    	url: '/save-concept-map?lessonid='+lessonId,
+    	url: '/software/aburatani/save-concept-map?lessonid='+lessonId,
     	dataType: 'text',
     	data:{ dat: nodeDatas},
     }).done(function(data){
@@ -79,7 +79,7 @@ function saveDatas(){
     nodeDatas += "]";
     $.ajax({
     	type: 'POST',
-    	url: '/save-concept-map?lessonid='+lessonId,
+    	url: '/software/aburatani/save-concept-map?lessonid='+lessonId,
     	dataType: 'text',
     	data:{ dat: nodeDatas},
     }).done(function(data){
@@ -137,7 +137,7 @@ $('#add-intent-form').submit(function(){
 function loadDatas(){
     var lessonId = getUrlVars()["lesson-id"];
     $.ajaxSetup({ async: false });
-    $.getJSON("/load-concept-map?lessonid="+lessonId, function(data) {
+    $.getJSON("/software/aburatani/load-concept-map?lessonid="+lessonId, function(data) {
 	let jsonObject =  JSON.parse(JSON.stringify(data));
 	chart = $('#orgChart').orgChart({
             data: jsonObject,
@@ -166,7 +166,7 @@ function checkParentNodeId(nodeContent){
     $.ajaxSetup({ async: false });
     $.ajax({
     	type: 'POST',
-    	url: '/find-parent-node-id',
+    	url: '/software/aburatani/find-parent-node-id',
     	dataType: 'text',
     	data:{ jsonObject: nodeDatas,
 	       conceptName: nodeContent},
@@ -184,7 +184,7 @@ function loadIntent(){
     var returnData;
     $.ajaxSetup({ async: false });
     console.log(lessonId);
-    $.getJSON("/load-intent-list?lessonid="+lessonId, function(data){
+    $.getJSON("/software/aburatani/load-intent-list?lessonid="+lessonId, function(data){
 	returnData = JSON.stringify(data);
     });
     $.ajaxSetup({ async: true });

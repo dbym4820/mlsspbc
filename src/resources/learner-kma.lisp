@@ -8,7 +8,7 @@
 	      (:div :style "float:left"
 		    ,(first (slides-kma lesson-id kma)))
 	      (:div :style "float:left; padding-left: 30px"
-		    (:form :style "font-size: 2em" :action "/slide-kma-save" :method "get"
+		    (:form :style "font-size: 2em" :action ,(append-root-url "/slide-kma-save") :method "get"
 			   (:input :type "hidden" :name "slide-id" :value ,(second (slides-kma lesson-id kma)))
 			   (:input :type "hidden" :name "lesson-id" :value ,(format nil "~A" lesson-id))
 			   (:input :type "hidden" :name "kma" :value ,(format nil "~A" (1+ (parse-integer kma))))
@@ -43,7 +43,7 @@
 	      (:div :style "clear:both;"
 		    (:div :id "declare-time-slide-highlight"
 			  ,(highlighted-slide-list lesson-id (parse-integer kma))))))
-	 (:script :type"text/javascript" :src "/static/js/window-setting/redirect.js")))
+	 (:script :type"text/javascript" :src ,(append-root-url "/static/js/window-setting/redirect.js"))))
 
 (defun slide-kma-save ()
   (let ((lesson-id (get-parameter "lesson-id"))

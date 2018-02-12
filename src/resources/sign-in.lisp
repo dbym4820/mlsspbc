@@ -7,7 +7,7 @@
   	       (:div :class "loginmodal-container"
   		     (:h1 "Login to Your Account")
   		     (:br)
-  		     (:form :method "post" :action "/sign-process"
+  		     (:form :method "post" :action ,(append-root-url "/sign-process")
   			    (:input :type "text" :name "email" :placeholder "Email" :autofocus)
 			    
   			    ;;(:p :style "color: red;" "ユーザ名かパスワードが間違っています")
@@ -16,9 +16,9 @@
 			    
   			    (:input :type "submit" :name "login" :class "login loginmodal-submit" :value "login")
   			    (:div :class "login-help"
-  				  (:a :href "/sign-up" "Register")
+  				  (:a :href ,(append-root-url "/sign-up") "Register")
   				  "-"
   				  (:a :href "#" "Forgot Password"))
   			    (:br)
   			    (:div :style "text-align: right;"
-  				  (:a :href "/" "TOPへ戻る")))))))
+  				  (:a :href ,(append-root-url "/") "TOPへ戻る")))))))

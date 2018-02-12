@@ -3,7 +3,7 @@
 (defun get-stub (get-name online-p)
   (if online-p
       (get-parameter get-name)
-      "/static/slide/keynote/test/assets/7F62948A-FD98-4CF8-ACE7-626FB404E94F/thumbnail.jpeg"))
+      (append-root-url "/static/slide/keynote/test/assets/7F62948A-FD98-4CF8-ACE7-626FB404E94F/thumbnail.jpeg")))
 
 
 (defun generate-advice ()

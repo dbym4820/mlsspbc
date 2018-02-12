@@ -2,7 +2,7 @@
 (defpackage mlsspbc.web-utils
   (:use :cl)
   (:import-from :mlsspbc.config
-                :config)
+                :config :append-root-url)
   (:import-from :cl-annot
                 :enable-annot-syntax)
   (:import-from :hunchentoot
@@ -19,7 +19,7 @@
 ;;; localhost:8000
 @export
 (defun request-host ()
-  (host (request)))
+  (append-root-url (host (request))))
 
 
 ;;; http://localhost:8000/
@@ -33,7 +33,7 @@
   (format nil "http://~A/~A" (request-host) page-name))
 
 (defun redirect (url)
-  (hunchentoot:redirect url))
+  (hunchentoot:redirect (append-root-url url)))
 
 ;;; http://localhost:8000/path
 @export

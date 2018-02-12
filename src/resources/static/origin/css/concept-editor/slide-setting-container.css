@@ -1,0 +1,40 @@
+#slides-container {
+    /* border: 2px solid #da4033; */
+    border-radius: 4px;
+    margin: 2em 0;
+    padding: 20em;
+    position: absolute;
+
+}
+
+#slides{
+    overflow:scroll;
+}
+
+#slides-container::before {
+    background-color: #fff;
+    color: #da4033;
+    content: "スライド";
+    font-weight: bold;
+    left: 2em;
+    padding: 0 .5em;
+    position: absolute;
+    top: -1em;
+}
+
+
+#slide-area {
+    overflow: scroll;
+    height: 600px;
+    position:relative;
+    white-space: nowrap;
+}
+
+.slide-parts {
+
+    margin: 5px;
+    border: solid 1px black;
+    width: 100px;
+    height: 100px;
+    float: left;
+}

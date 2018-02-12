@@ -6,15 +6,15 @@
 
 @export
 (defun js-path (path)
-  (format nil "~A~A" "/static/js/" path))
+  (append-root-url (format nil "~A~A" "/static/js/" path)))
 
 @export
 (defun css-path (path)
-  (format nil "~A~A" "/static/css/" path))
+  (append-root-url (format nil "~A~A" "/static/css/" path)))
 
 @export
 (defun image-path (path)
-  (format nil "~A~A" "/static/image/" path))
+  (append-root-url (format nil "~A~A" "/static/image/" path)))
 
 
 (setf (cl-who:html-mode) :html5)
@@ -118,7 +118,7 @@
 				  (:button :type "button" :class "navbar-toggle collapsed" :data-toggle "collapse"
 					   :data-target "#navbar" :aria-expanded "false" :aria-controls "navbar"
 					   (:span :class "sr-only" "Toggle navigation"))
-				  (:a :class "navbar-brand" :href "/" ,(system-name)))
+				  (:a :class "navbar-brand" :href ,(append-root-url "/") ,(system-name)))
 			    (:div :id "navbar" :class "navbar-collapse collapse"
 				  (:ul :class "nav navbar-nav navbar-right"
 				       (:li :class "dropdown"
@@ -144,17 +144,17 @@
 						 ;; (:li (:a :href "#" "Presentation System"))
 						 (:li :class "divider")
 						 (:li :class "dropdown-header" "Session Management")
-						 (:li (:a :href "/sign-out-process"
+						 (:li (:a :href ,(append-root-url "/sign-out-process")
 							  (:span :class "glyphicon glyphicon-log-out") " Logout"))))))))
 		(:div :id "loading"
-		      (:img :src "/static/image/loading/loading.gif"))
+		      (:img :src ,(append-root-url "/static/image/loading/loading.gif")))
 		(:div :class "modal fade" :id "login-modal" :tabindex "-1" :role "dialog"
 		      :aria-lebelledby "myModalLabel" :aria-hidden "true" :style "display: none;"
 		      (:div :class "modal-dialog"
 			    (:div :class "loginmodal-container"
 				  (:h1 "Login to Your Account")
 				  (:br)
-				  (:form :method "post" :action "/sign"
+				  (:form :method "post" :action ,(append-root-url "/sign")
 					 (:input :type "text" :name "username" :placeholder "UserName")
 					 (:input :type "password" :name "password" :placeholder "Password")
 					 (:div :class "modal-footer"
@@ -255,7 +255,7 @@
 				  (:button :type "button" :class "navbar-toggle collapsed" :data-toggle "collapse"
 					   :data-target "#navbar" :aria-expanded "false" :aria-controls "navbar"
 					   (:span :class "sr-only" "Toggle navigation"))
-				  (:a :class "navbar-brand" :href "/" ,(system-name)))
+				  (:a :class "navbar-brand" :href ,(append-root-url "/") ,(system-name)))
 			    (:div :id "navbar" :class "navbar-collapse collapse"
 				  (:ul :class "nav navbar-nav navbar-right"
 				       (:li :class "dropdown"
@@ -280,17 +280,17 @@
 						 (:li (:a :href "#" "Presentation System"))
 						 (:li :class "divider")
 						 (:li :class "dropdown-header" "Session Management")
-						 (:li (:a :href "/sign-out-process"
+						 (:li (:a :href ,(append-root-url "/sign-out-process")
 							  (:span :class "glyphicon glyphicon-log-out") " Logout"))))))))
 		(:div :id "loading"
-		      (:img :src "/static/image/loading/loading.gif"))
+		      (:img :src ,(append-root-url "/static/image/loading/loading.gif")))
 		(:div :class "modal fade" :id "login-modal" :tabindex "-1" :role "dialog"
 		      :aria-lebelledby "myModalLabel" :aria-hidden "true" :style "display: none;"
 		      (:div :class "modal-dialog"
 			    (:div :class "loginmodal-container"
 				  (:h1 "Login to Your Account")
 				  (:br)
-				  (:form :method "post" :action "/sign"
+				  (:form :method "post" :action ,(append-root-url "/sign")
 					 (:input :type "text" :name "username" :placeholder "UserName")
 					 (:input :type "password" :name "password" :placeholder "Password")
 					 (:div :class "modal-footer"
