@@ -121,7 +121,7 @@
 
 	    // 兄弟リンク描画
 	    var jsonObject;
-	    $.getJSON("/software/aburatani/load-slide-line-list", function(data) {
+	    $.getJSON("../../../load-slide-line-list", function(data) {
 		var dataLen = data.length;
 		for(var i=0; i<=dataLen-1; i++){
 		    draw_line(eval(JSON.stringify(data[i].parent)), eval(JSON.stringify(data[i].child)));
@@ -191,7 +191,7 @@
             }
 
 	    var oldNode = nodes[id].data.name;
-	    if( (oldNode !== "") && (oldNode !== "NEW") && (oldNode !== "NEW\n") && (oldNode.substring(0,7) !== "/software/aburatani/static") ){
+	    if( (oldNode !== "") && (oldNode !== "NEW") && (oldNode !== "NEW\n") && (!oldNode.match("/\/static/")) ){
 	    	var inNode = '<div class="node-content intension-items" draggable="true" id="' + oldNode + '" ondragstart="f_dragstart(event)">' + oldNode + '</div>';
 	    	document.getElementById('intensions').innerHTML += inNode;
 	    }
@@ -343,14 +343,14 @@
 	    var editButton = '<div data-toggle="modal" data-target="#div-modal" class="edit-btn">' +
 		                 '<a class="modal-opening">' +
 		                     '<button class="edit-node btn-xs btn-default" type="button">' +
-                                       '<img src="/software/aburatani/static/image/concept-map/edit.png" class="btn-img-content-l2" />' +
+                                       '<img src="../../image/concept-map/edit.png" class="btn-img-content-l2" />' +
                                      '</button>' +
 		                 '</a>' +
                               '</div>';
 
 	    var lineMakeButton = '<div class="make-line-btn">' +
                                     '<button class="nodes-line btn-xs btn-warning" type="button" onclick="makeLine1(\'' + dName  + '\');" >' +
-                                        '<img src="/software/aburatani/static/image/concept-map/edit.png" class="btn-img-content-r2" />' +
+                                        '<img src="../../image/concept-map/edit.png" class="btn-img-content-r2" />' +
                                     '</button>' +
                                 '</div></div>';
 	    
@@ -360,7 +360,7 @@
             }
 
 	    // ノードの組み立て
-	    if( (dName.substring(0, 7) == "/software/aburatani/static") ){ // スライドノードの設定
+	    if( dName.match("/\/static/") ){ // スライドノードの設定
 	    	return "<div class='slide-node' node-id='"+this.data.id+"'>" +
 		          "<div class='above-buttom'>" +
 		          addAboveButton + removeButton1 +

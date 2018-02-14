@@ -1,8 +1,5 @@
-$(window).load(function(){
-    $("#register-btn").on('click',function(){
-	
-	$("#modal-overlay").fadeOut("fast");
-	$("#modal-content-div").fadeOut("fast");
-	$("#modal-overlay").remove();
-    });
-});
+function convertAbsUrl(relativePath){
+  var anchor = document.createElement("a");
+  anchor.href = relativePath;
+  return anchor.href;
+}

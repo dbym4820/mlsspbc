@@ -42,11 +42,12 @@ function s(){
     nodeDatas += "]";
     return nodeDatas;
 
-
     var lessonId = getUrlVars()["lesson-id"];
+    let conceptJsonUrl = location.pathname+"/../../save-concept-map?lessonid="+lessonId;
+    console.log(conceptJsonUrl);
     $.ajax({
     	type: 'POST',
-    	url: '/software/aburatani/save-concept-map?lessonid='+lessonId,
+    	url: conceptJsonUrl,
     	dataType: 'text',
     	data:{ dat: nodeDatas},
     }).done(function(data){
@@ -77,9 +78,10 @@ function saveDatas(){
     var lessonId = getUrlVars()["lesson-id"];
     
     nodeDatas += "]";
+    let saveConceptJsonUrl = location.pathname+'/../../save-concept-map?lessonid='+lessonId;
     $.ajax({
     	type: 'POST',
-    	url: '/software/aburatani/save-concept-map?lessonid='+lessonId,
+    	url: saveConceptJsonUrl,
     	dataType: 'text',
     	data:{ dat: nodeDatas},
     }).done(function(data){
@@ -136,14 +138,17 @@ $('#add-intent-form').submit(function(){
 
 function loadDatas(){
     var lessonId = getUrlVars()["lesson-id"];
+    let loadConceptJsonUrl = location.pathname+"/../../load-concept-map?lessonid="+lessonId;
     $.ajaxSetup({ async: false });
-    $.getJSON("/software/aburatani/load-concept-map?lessonid="+lessonId, function(data) {
+    $.getJSON(loadConceptJsonUrl, function(data) {
 	let jsonObject =  JSON.parse(JSON.stringify(data));
 	chart = $('#orgChart').orgChart({
             data: jsonObject,
 	});	
     });
     $.ajaxSetup({ async: true });
+
+    
 }
 
 function checkParentNodeId(nodeContent){
@@ -163,10 +168,11 @@ function checkParentNodeId(nodeContent){
     }
     nodeDatas += "]";
 
+    let checkJsonUrl = location.pathname+'/../../find-parent-node-id';
     $.ajaxSetup({ async: false });
     $.ajax({
     	type: 'POST',
-    	url: '/software/aburatani/find-parent-node-id',
+    	url: checkJsonUrl,
     	dataType: 'text',
     	data:{ jsonObject: nodeDatas,
 	       conceptName: nodeContent},
@@ -181,10 +187,11 @@ function checkParentNodeId(nodeContent){
 
 function loadIntent(){
     var lessonId = getUrlVars()["lesson-id"];
+    let loadIntentJsonUrl = location.pathname+"/../../load-intent-list?lessonid="+lessonId;
     var returnData;
+
     $.ajaxSetup({ async: false });
-    console.log(lessonId);
-    $.getJSON("/software/aburatani/load-intent-list?lessonid="+lessonId, function(data){
+    $.getJSON(loadIntentJsonUrl, function(data){
 	returnData = JSON.stringify(data);
     });
     $.ajaxSetup({ async: true });

@@ -43,6 +43,8 @@
 		(:meta :http-equiv "X-UA-Comatible" :content "IE=edge")
 		(:meta :name "viewpoint" :content "width=device-width, initial-scale=1")
 		(:title "Meta Learning Support System")
+
+		(:script :type "text/javascript" :src ,(js-path "first-load.js"))
 		
                ;;; Basic libraries
 		(:script :type "text/javascript" :src ,(js-path "jquery.min.js"))
