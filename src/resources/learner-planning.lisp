@@ -92,7 +92,7 @@
 (defun slides-planning ()
   (let ((code nil))
     (loop for x in (get-slide-pathname)
-	  do (push `(:img :id ,x :class "slide-image intension-items" :ondragstart "f_dragstart(event)" :src ,x) code))
+	  do (push `(:img :id ,(append-root-url x) :class "slide-image intension-items" :ondragstart "f_dragstart(event)" :src ,(append-root-url x)) code))
     (push "slide-rows" code)
     (push :id code)
     (push :div code)))

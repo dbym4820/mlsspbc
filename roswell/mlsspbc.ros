@@ -12,10 +12,8 @@ exec ros -Q -- $0 "$@"
   (:use :cl :mlsspbc))
 (in-package :ros.script.mlsspbc)
 
-(defun main (command &rest argv)
-  (declare (ignorable command argv))
-;;  (cond (t;;(string= command "start-system")
-  (mlsspbc::start-system))
-	;; ((string= command "stop-system")
-	;;  (mlsspbc::stop-system))))
-;;; vim: set ft=lisp lisp:
+(defun main (&rest argv)
+  (declare (ignorable argv))
+  (mlsspbc::start-system 8888 "/software/aburatani")
+  (loop))
+;; vim: set ft=lisp lisp:

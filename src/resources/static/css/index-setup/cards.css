@@ -130,11 +130,11 @@
 
 @font-face {
 	font-family: 'icomoon';
-	src:url('/static/fonts/icomoon/icomoon.eot?3d1mhj');
-	src:url('/static/fonts/icomoon/icomoon.eot?#iefix3d1mhj') format('embedded-opentype'),
-		url('/static/fonts/icomoon/icomoon.woff?3d1mhj') format('woff'),
-		url('/static/fonts/icomoon/icomoon.ttf?3d1mhj') format('truetype'),
-		url('/static/fonts/icomoon/icomoon.svg?3d1mhj#icomoon') format('svg');
+	src:url('/software/aburatani/static/fonts/icomoon/icomoon.eot?3d1mhj');
+	src:url('/software/aburatani/static/fonts/icomoon/icomoon.eot?#iefix3d1mhj') format('embedded-opentype'),
+		url('/software/aburatani/static/fonts/icomoon/icomoon.woff?3d1mhj') format('woff'),
+		url('/software/aburatani/static/fonts/icomoon/icomoon.ttf?3d1mhj') format('truetype'),
+		url('/software/aburatani/static/fonts/icomoon/icomoon.svg?3d1mhj#icomoon') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }

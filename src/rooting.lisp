@@ -38,11 +38,14 @@
 	(list
 	 'dispatch-easy-handlers
 	 ;; Static Resource Rooting
-	 (create-folder-dispatcher-and-handler "/static/" (config :static-directory))
+	 (create-folder-dispatcher-and-handler "/software/aburatani/static/" (config :static-directory))
 
 	 ;; Page Rooting
 	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/")) (lambda () (eval (index))))
 	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/index")) (lambda () (eval (index))))
+
+         ;; ;; DB
+         ;; (create-static-file-dispatcher-and-handler "/software/aburatani/database" "./databases/database.sqlite")
 
 	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/domain-select")) (lambda () (eval (domain-select))))
 	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/domain-create-page")) (lambda () (eval (domain-create-page))))

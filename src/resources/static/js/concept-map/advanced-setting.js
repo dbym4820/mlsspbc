@@ -121,7 +121,7 @@
 
 	    // 兄弟リンク描画
 	    var jsonObject;
-	    $.getJSON("/load-slide-line-list", function(data) {
+	    $.getJSON("/software/aburatani/load-slide-line-list", function(data) {
 		var dataLen = data.length;
 		for(var i=0; i<=dataLen-1; i++){
 		    draw_line(eval(JSON.stringify(data[i].parent)), eval(JSON.stringify(data[i].child)));

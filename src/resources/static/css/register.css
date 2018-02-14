@@ -22,7 +22,7 @@ a:hover{
     font-weight:200;
     color: #888888;
     font-size:16pt;
-    background: transparent url(/static/image/icon/check-box.png) no-repeat center left;
+    background: transparent url(/software/aburatani/static/image/icon/check-box.png) no-repeat center left;
     padding-left:33px;
     margin:7px 5px 8px 8px;
 }
