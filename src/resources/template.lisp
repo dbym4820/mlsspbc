@@ -100,7 +100,7 @@
 		(:script :type "text/javascript" :src ,(js-path "window-setting/basic.js"))
 		(:script :type "text/javascript" :src ,(js-path "split-js/split.min.js"))
                 (:link :rel "stylesheet" :type "text/css" :href ,(css-path "split-js/split.css"))
-                (:script :type "text/javascript" :src ,(js-path "split-js/setting.js"))
+                ;;(:script :type "text/javascript" :src ,(js-path "split-js/setting.js"))
 		
 		(:link :rel "stylesheet" :type "text/css" :href ,(css-path "loading.css"))
 		(:link :rel "stylesheet" :type "text/css" :href ,(css-path "main.css"))
@@ -237,7 +237,7 @@
 		(:script :type "text/javascript" :src ,(js-path "window-setting/basic.js"))
 		(:script :type "text/javascript" :src ,(js-path "split-js/split.min.js"))
                 (:link :rel "stylesheet" :type "text/css" :href ,(css-path "split-js/split.css"))
-                (:script :type "text/javascript" :src ,(js-path "split-js/setting.js"))
+                ;;(:script :type "text/javascript" :src ,(js-path "split-js/setting.js"))
 		
 		(:link :rel "stylesheet" :type "text/css" :href ,(css-path "loading.css"))
 		(:link :rel "stylesheet" :type "text/css" :href ,(css-path "main.css"))

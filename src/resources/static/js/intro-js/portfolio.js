@@ -2,7 +2,7 @@
 function loadAdvice (slideId, callback){
 	$.ajax({
 	type: 'GET',
-	url: '../../../generate-advice?slide-id='+slideId,
+	url: location.pathname+'/../../generate-advice?slide-id='+slideId,
 	dataType: 'text',
 	async: false,
 	success: function(data){
@@ -29,7 +29,7 @@ function plusIntroTug (){
 
 
 function kModal (slideId){
-        sigma.parsers.json("../../../slide-knowledge-struct?slide-id="+slideId, {
+        sigma.parsers.json(location.pathname+"/../../slide-knowledge-struct?slide-id="+slideId, {
     //    sigma.parsers.json('/static/js/sigma/sample-data.json', {
 	container: 'paper',
 	x: 0, y: 0, angle: 0.5, ratio: 0.5,
@@ -44,6 +44,7 @@ $(window).load(function () {
     document.querySelector('button.finish-declare-btn').onclick = function(){
 	plusIntroTug();
 	var introInstance = introJs();
+        console.log("push intro btn");
 	introInstance.onafterchange(function(targetElem){
 	    setTimeout(function(){
 		kModal("1");

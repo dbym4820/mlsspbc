@@ -1,6 +1,6 @@
-$(window).load(function(){
+$(window).ready(function(){
     Split(['#b-window', '#c-window'], {
-	sizes: [65, 35],
+	sizes: [70, 25],
 	cursor: 'col-resize'
     });
 });

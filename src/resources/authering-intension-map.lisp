@@ -65,6 +65,7 @@
 		     (:button :type "button" :id "modal-close-btn2" :class "btn btn-default" "閉じる")
 		     (:button :type "button" :class "btn btn-primary" :data-dismiss "modal" :id "modal-save" "保存")))
 	 (:br)
+         (:div :id "knowledge-structure")
 	 (:br)
 	 (:script :type "text/javascript" :src ,(append-root-url "/static/js/window-setting/redirect.js"))
 	 (:script :type "text/javascript" :src ,(append-root-url "/static/js/split-js/setting.js"))
