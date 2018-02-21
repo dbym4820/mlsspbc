@@ -25,12 +25,12 @@
 ;;; http://localhost:8000/
 @export
 (defun root-url ()
-  (format nil "http://~A~A" (request-host) "/"));;(append-root-url "/")))
+  (format nil "http://~A~A" (request-host) (append-root-url "/")));;(append-root-url "/")))
 
 ;;; http://localhost:8000/index
 @export
 (defun site-path (&optional (page-name ""))
-  (format nil "http://~A~A" (request-host) (format nil "/~A" page-name)))
+  (format nil "http://~A~A" (request-host) (append-root-url (format nil "/~A" page-name))))
 
 (defun redirect (url)
   (hunchentoot:redirect url))

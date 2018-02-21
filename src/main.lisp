@@ -53,8 +53,8 @@
   (cond ((running-p port) ;; When it has been running that port
 	 (format t "~A ~S~%" "New Hunchentoot process can't launched by using port:" port))
 	(t ;; When the port hasn't been running now
-	 (dispatcher)
 	 (set-root-url root-url)
+	 (dispatcher)
 	 (let ((server (make-server port)))
 	   (add-server server)
 	   (start server)
@@ -66,6 +66,7 @@
 	 (format t "~A~%" "Hunchentoot process doesn't start yet"))
 	(t
 	 (stop (get-server port))
+	 (set-root-url root-url)
 	 (dispatcher)
 	 (start (get-server port))
 	 (format t "~A ~S~%" "Old Hunchentoot process was killed and New process has launched by using port:" port))))
@@ -77,5 +78,5 @@
 	(t
 	 (let ((server (get-server port)))
 	   (stop server)
-	   (remote-server port)
+	   (remove-server port)
 	   (format t "~A ~S~%" "Hunchentoot process has stopped port:" port)))))
