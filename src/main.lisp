@@ -80,3 +80,11 @@
 	   (stop server)
 	   (remove-server port)
 	   (format t "~A ~S~%" "Hunchentoot process has stopped port:" port)))))
+
+@export
+(defun run-local ()
+  (start-system 8000 ""))
+
+@export
+(defun run-remote ()
+  (start-system 8888 "/software/aburatani"))
