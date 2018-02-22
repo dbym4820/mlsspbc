@@ -83,7 +83,7 @@
 
 @export
 (defun run-local ()
-  (start-system 8000 ""))
+  (start-system 8000 "/software/aburatani"))
 
 @export
 (defun run-remote ()

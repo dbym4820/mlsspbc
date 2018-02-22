@@ -1,7 +1,7 @@
 (in-package :mlsspbc.resources)
 
 (defpage domain-create-page ()
-  `(:form :action "/software/aburatani/domain-create" :method "post"
+  `(:form :action ,(append-root-url "/domain-create") :method "post"
 	  (:p "ドメイン")
 	  (:input :type "text" :name "domain-name")
 	  (:input :type "submit" :value "send")))

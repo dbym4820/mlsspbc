@@ -118,7 +118,7 @@
 (defun kma-authering-slide (lesson-id kma-number)
     (let ((code nil))
       (loop for x in (get-slide-list-for-authering lesson-id)
-	    do (push `((:img :id ,(append-root-url (first x)) :class "slide-kma" :src ,(append-root-url (first x)) :width "400" :height "300" :style "border: 1px black solid") ,(second x)) code))
+	    do (push `((:img :id ,(first x) :class "slide-kma" :src ,(first x) :width "400" :height "300" :style "border: 1px black solid") ,(second x)) code))
       `,(nth
 	 (if (stringp kma-number)
 	     (parse-integer kma-number)
@@ -137,10 +137,10 @@
     (loop for x in (mapcar #'car (get-slide-list-for-authering lesson-id))
 	  for y from 0
 	  do (if (= y kma-number)
-		 (push `(:img :class "slide-kma highlighted-slide" :src ,(append-root-url x) :width "100" :height "80" :style "border: 1px black solid") code)
-		 (push `(:img :class "slide-kma" :src ,(append-root-url x) :width "80" :height "60" :style "border: 1px black solid") code))
-	  do (if (= 0 (mod (1+ y) 15))
-		 (push `(:div :style "clear:both;") code))
+		 (push `(:img :class "slide-kma highlighted-slide" :src ,x :width "100" :height "80" :style "border: 1px black solid") code)
+		 (push `(:img :class "slide-kma" :src ,x :width "80" :height "60" :style "border: 1px black solid") code))
+	  do (if (= 0 (mod (1+ y) 8))
+		 (push `(:br) code))
 	  finally (progn
 		    (setf code (reverse code))
 		    (push :div code)))
