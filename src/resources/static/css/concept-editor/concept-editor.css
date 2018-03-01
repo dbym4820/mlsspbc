@@ -40,6 +40,19 @@
     margin-left: 4px;
 }
 
+/* ノードの中スライドDivの範囲 */
+.slide-node > .node-content-square > .intension-items {
+    padding: 0px;
+}
+
+/* ノードの中スライドDivの範囲 */
+.slide-node > .node-content-square > .intension-items > .slide-image {
+    height: 80px;
+    width: 80px;
+}
+
+
+
 /* テキストDivのノード本体 */
 .node-content {
     text-align: left;

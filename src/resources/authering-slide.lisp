@@ -41,8 +41,8 @@
 	 (new-vocabrary-id (cadar (select "max(id)+1" "goal_vocabrary")))
 	 (domain-id (cadar (select "domain_id" "lessons" (format nil "\"lesson_id\"=\"~A\"" lesson-id)))))
     ;;; スライドテーブルに突っ込む
-    (send-query (format nil "insert into \"domain_slide\" (\"slide_id\", \"slide_path\", \"slide_title\", \"express_knowledge\", \"domain_id\", \"slide_errata\", \"uploaded_at\") values (\"~A\",\"~A\",\"~A\",\"~A\",\"~A\",\"~A\",\"~A\")"
-			new-slide-id slide-path "" "{}" domain-id "" time-stamp))
+    (send-query (format nil "insert into \"domain_slide\" (\"slide_id\", \"slide_path\", \"slide_title\", \"explicit_knowledge\", \"implicit_knowledge\", \"domain_id\", \"slide_errata\", \"uploaded_at\") values (\"~A\",\"~A\",\"~A\",\"~A\",\"~A\",\"~A\",\"~A\",\"~A\")"
+			new-slide-id slide-path "" "{}" "{}" domain-id "" time-stamp))
     ;;; 目標語彙一覧に突っ込む
     (send-query (format nil "insert into goal_vocabrary(\"id\", \"vocabrary\", \"domain_id\", \"defined_by\", \"created_at\", \"edited_at\", \"type\", \"explicit_knowledge\", \"implicit_knowledge\") values (\"~A\", \"~A\", \"~A\", \"~A\", \"~A\", \"~A\", \"~A\", \"~A\", \"~A\")"
 			new-vocabrary-id slide-path domain-id user-id time-stamp time-stamp "slide" "{}" "{}"))))
@@ -123,7 +123,7 @@
 	 (if (stringp kma-number)
 	     (parse-integer kma-number)
 	     kma-number)
-	 code)))
+	 (reverse code))))
 
 (defun get-slide-list-for-authering (lesson-id)
   (let ((domain-id (cadar (select "domain_id" "lessons" (format nil "lesson_id=\"~A\"" lesson-id)))))

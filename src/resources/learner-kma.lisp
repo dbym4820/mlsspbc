@@ -58,10 +58,11 @@
 
 (defun get-lesson-slides-list (lesson-id)
   (let ((domain-id (cadar (select "domain_id" "lessons" (format nil "lesson_id=\"~A\"" lesson-id)))))
-    (mapcar #'(lambda (slide-path)
-		(list slide-path
-		      (cadar (select "slide_id" "domain_slide" (format nil "domain_id=\"~A\" and slide_path=\"~A\"" domain-id slide-path)))))
-	    (mapcar #'cadr (select "slide_path, slide_id" "domain_slide" (format nil "domain_id=\"~A\"" domain-id))))))
+    (reverse
+     (mapcar #'(lambda (slide-path)
+		 (list slide-path
+		       (cadar (select "slide_id" "domain_slide" (format nil "domain_id=\"~A\" and slide_path=\"~A\"" domain-id slide-path)))))
+	     (mapcar #'cadr (select "slide_path, slide_id" "domain_slide" (format nil "domain_id=\"~A\"" domain-id)))))))
 
 
 (defun slides-kma (lesson-id slide-number)
@@ -72,5 +73,4 @@
        (if (stringp slide-number)
 	   (parse-integer slide-number)
 	   slide-number)
-       code)))
-
+      (reverse code))))

@@ -111,8 +111,8 @@
 	 (domain-id (cadar (select "domain_id" "lessons" (format nil "lesson_id=\"~A\"" lesson-id))))
 	 (slide-pathname (mapcar #'cadr (select "slide_path" "domain_slide" (format nil "domain_id=\"~A\"" domain-id)))))
     (loop for x in slide-pathname
-	  do (push `(:img :id ,(append-root-url x) :class "slide-image intension-items" :ondragstart "f_dragstart(event)" :src ,(append-root-url x)) code))
+	  do (push `(:img :id ,x :class "slide-image intension-items" :ondragstart "f_dragstart(event)" :src ,x) code))
     (push "slide-rows" code)
     (push :id code)
     (push :div code)
-    code))
+    (reverse code)))

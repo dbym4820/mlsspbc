@@ -43,10 +43,10 @@
   )
 
 #|
-データベースから暮らす作成の際に使用する関数群
+データベースからクラス作成の際に使用する関数群
 |#
 (defun get-slide-id-from-path (slide-path)
-  (cadar (select "id" "goal_vocabrary" (format nil "vocabrary = \"~A\"" slide-path))))
+  (cadar (select "id" "domain_slide" (format nil "slide_path=\"~A\"" slide-path))))
 
 (defun get-parent-node-ids-from-slide-id (slide-id lesson-id)
   (mapcar #'cadr (select "parent_term_id" "user_concepts"
