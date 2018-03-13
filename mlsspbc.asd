@@ -7,7 +7,8 @@
   :version "0.3"
   :license "MIT"
   :author "Tomoki Aburatani <aburatanitomoki@gmail.com>"
-  :depends-on (:closure-html ;; CAn't load by abcl
+  :depends-on (:swank
+	       :closure-html ;; CAn't load by abcl
 	       :local-time
 	       :alexandria 
 	       :hunchentoot
