@@ -46,11 +46,16 @@
 
 		(:script :type "text/javascript" :src ,(js-path "first-load.js"))
 		
-               ;;; Basic libraries
+		(:script :type "text/javascript" :src ,(js-path "require/self-require.js"))
+		
+                ;;; Basic libraries
 		(:script :type "text/javascript" :src ,(js-path "jquery.min.js"))
 		(:script :type "text/javascript" :src ,(js-path "bootstrap/js/bootstrap.min.js"))
 		(:script :type "text/javascript" :src ,(js-path "reveal/js/reveal.js"))
 		(:script :type "text/javascript" :src ,(js-path "jquery-ui/jquery-ui.min.js"))
+		(:link :rel "stylesheet" :type "text/css" :href ,(css-path "bootstrap/css/bootstrap.min.css"))
+		(:link :rel "stylesheet" :type "text/css" :href ,(css-path "jquery-ui/jquery-ui.min.css"))
+
 		;;; Concept map editor
 		(:script :type "text/javascript" :src ,(js-path "concept-map/setup.js"))
 		(:script :type "text/javascript" :src ,(js-path "concept-map/advanced-setting.js"))
@@ -58,30 +63,40 @@
 		(:script :type "text/javascript" :src ,(js-path "concept-map/inference-output.js"))
 
                 (:script :type "text/javascript" :src ,(js-path "splitter/splitter.js"))
+
+	        ;;; Alert setup
+		(:link :rel "stylesheet" :type "text/css" :href ,(css-path "sweet-alert/sweetalert.css"))
+		(:script :type "text/javascript" :src ,(js-path "sweet-alert/sweetalert.min.js"))
+		(:script :type "text/javascript" :src ,(js-path "sweet-alert/advanced-setup.js"))
 		
-		(:link :rel "stylesheet" :type "text/css" :href ,(css-path "bootstrap/css/bootstrap.min.css"))
+		;;; Knowledge operators
+		(:link :rel "stylesheet" :type "text/css" :href ,(js-path "cytoscape/knowledge-express.css"))
+		(:script :type "text/javascript" :src ,(js-path "cytoscape/cytoscape.min.js")) 
+		(:script :type "text/javascript" :src ,(js-path "cytoscape/advanced-setting.js"))
+
+		;;; Gridster
+		;; (:script :type "text/javascript" :src ,(js-path "layout/grid-layout.js"))
+		;; (:script :type "text/javascript" :src ,(js-path "layout/grid-setting.js"))
+
+		;;; sigma(network graph library)
+                (:script :type "text/javascript" :src ,(js-path "graphdracula/vis.js"))
+                (:script :type "text/javascript" :src ,(js-path "graphdracula/advanced-setting.js"))
+		(:link :rel "stylesheet" :type "text/css" :href ,(js-path "graphdracula/graph.css"))
+		(:link :rel "stylesheet" :type "text/css" :href ,(js-path "graphdracula/vis.min.css"))
+		
 		(:link :rel "stylesheet" :type "text/css" :href ,(css-path "concept-editor/concept-editor.css"))
 		(:link :rel "stylesheet" :type "text/css" :href ,(css-path "concept-editor/main-window.css"))
 		(:link :rel "stylesheet" :type "text/css" :href ,(css-path "concept-editor/movable-intension-parts.css"))
 		(:link :rel "stylesheet" :type "text/css" :href ,(css-path "concept-editor/slide-parts.css"))
 		(:link :rel "stylesheet" :type "text/css" :href ,(css-path "concept-editor/slide-setting-container.css"))
-		(:link :rel "stylesheet" :type "text/css" :href ,(css-path "jquery-ui/jquery-ui.min.css"))
                 (:link :rel "stylesheet" :type "text/css" :href ,(js-path "splitter/splitter.css"))
 
-		;;; Knowledge operators
-		(:link :rel "stylesheet" :type "text/css" :href ,(js-path "cytoscape/knowledge-express.css"))
-		(:script :type "text/javascript" :src ,(js-path "cytoscape/cytoscape.min.js")) 
-		(:script :type "text/javascript" :src ,(js-path "cytoscape/advanced-setting.js"))
-		
 	        ;;; Index Setup
 		(:script :type "text/javascript" :src ,(js-path "index-setup/cards.js"))
 		;; (:script :type "text/javascript" :src ,(js-path "index-setup/bootcards.js"))
 		(:link :rel "stylesheet" :type "text/css" :href ,(css-path "index-setup/cards.css"))
 		;; (:link :rel "stylesheet" :type "text/css" :href ,(css-path "index-setup/bootcards-android.css"))
-		
-		;;; sigma(network graph library)
-                ;; (:script :type "text/javascript" :src ,(js-path "graphdracula/dist/dracula.min.js"))
-                ;; (:script :type "text/javascript" :src ,(js-path "graphdracula/advanced-setting.js"))
+	
 		(:script :type "text/javascript" :src ,(js-path "sigma/sigma.min.js"))
 		(:script :type "text/javascript" :src ,(js-path "sigma/plugins/sigma.parsers.json.min.js"))
 
@@ -90,11 +105,6 @@
 		(:link :rel "stylesheet" :type "text/css" :href ,(js-path "intro-js/introjs-rtl.min.css"))
 		(:script :type "text/javascript" :src ,(js-path "intro-js/intro.min.js"))
 		(:script :type "text/javascript" :src ,(js-path "intro-js/portfolio.js"))
-		
-		;;; Alert setup
-		(:link :rel "stylesheet" :type "text/css" :href ,(css-path "sweet-alert/sweetalert.css"))
-		(:script :type "text/javascript" :src ,(js-path "sweet-alert/sweetalert.min.js"))
-		(:script :type "text/javascript" :src ,(js-path "sweet-alert/advanced-setup.js"))
 		
                ;;; Default window setting
 		(:script :type "text/javascript" :src ,(js-path "window-setting/basic.js"))
@@ -183,12 +193,14 @@
 		(:meta :name "viewpoint" :content "width=device-width, initial-scale=1")
 		(:title "Meta Learning Support System")
 
-;;; Basic libraries
+		(:script :type "text/javascript" :src ,(js-path "first-load.js"))
+		
+                ;;; Basic libraries
 		(:script :type "text/javascript" :src ,(js-path "jquery.min.js"))
 		(:script :type "text/javascript" :src ,(js-path "bootstrap/js/bootstrap.min.js"))
 		(:script :type "text/javascript" :src ,(js-path "reveal/js/reveal.js"))
 		(:script :type "text/javascript" :src ,(js-path "jquery-ui/jquery-ui.min.js"))
-		
+
 		;;; Concept map editor
 		(:script :type "text/javascript" :src ,(js-path "concept-map/setup.js"))
 		(:script :type "text/javascript" :src ,(js-path "concept-map/advanced-setting.js"))
@@ -218,7 +230,6 @@
                 ;; (:script :type "text/javascript" :src ,(js-path "graphdracula/dist/dracula.min.js"))
                 ;; (:script :type "text/javascript" :src ,(js-path "graphdracula/advanced-setting.js"))
 		(:script :type "text/javascript" :src ,(js-path "sigma/sigma.min.js"))
-		;; (:script :type "text/javascript" :src ,(js-path "sigma/sigma.require.js"))
 		(:script :type "text/javascript" :src ,(js-path "sigma/plugins/sigma.parsers.json.min.js"))
 
 		;;; Intro.js

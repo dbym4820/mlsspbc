@@ -1,5 +1,7 @@
 #knowledge-structure {
-  height: 1000px;
-  width: 100%;
+  height: 60vh;
+  width: 80vw;
+  border: 1px solid black;
   background-color: white;
+  cursor: pointer;
 }

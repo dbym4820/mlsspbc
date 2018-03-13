@@ -10,10 +10,9 @@
         }, options);
 
         function initialise(element) {
-            
             $(element).addClass('honeycombs-wrapper');
             
-            var width = 0;
+            var width = 1000;
             var combWidth = 0;
             var combHeight = 0;
             var num = 0;
@@ -23,7 +22,8 @@
              * Build the dom
              */
             function buildHtml(){
-                // add the 2 other boxes
+
+		// add the 2 other boxes
                 $(element).find('.comb').wrapAll('<div class="honeycombs-inner-wrapper"></div>');
                 $wrapper = $(element).find('.honeycombs-inner-wrapper');
 
@@ -71,9 +71,11 @@
                 updateScales();
                 width = $(element).width();
                 
-                newWidth = $('.honeycombs').parent().width();
-                
-                
+                newWidth = 760;
+		//newWidth = $('.honeycombs').parent().width();
+		width = 760;
+		//width = window.parent.screen.width - 400;
+		
                 if(newWidth < width){
                     width = newWidth;
                 }
@@ -96,20 +98,21 @@
                 }
 
                 var halfTop = function(top){
+		    console.log("half");
                     return ( row * ( 0.5 * combHeight * Math.sqrt(3) + settings.margin) )
                 }
 
                 var fullTop = function(top){
+		    console.log("full");
                     return ( row * (combHeight + settings.margin + combHeight * 0.1))
                 }
 
                 function orderCombs(leftHandler, topHandler){
 
+
                     $(element).find('.comb').filter(':not(.placeholder.hide)').each(function(index){
                         
-                        //top = topHandler(top);
-			// 強制
-			top=0;
+                        top = topHandler(top);
 			
                         if(animate == true){
                             $(this).stop(true, false);
@@ -128,26 +131,28 @@
                         if(row == 0){
                             cols = cols + 1;
                         }
-                            
+
                         if(left + combWidth > width){
                             row = row + 1;
                             offset = leftHandler(offset);
                             left = offset / 2 * ( combWidth + settings.margin ) ;
-                        }
 
-			// 強制
-			left = 250 * row;
-			// console.log("cols: "+cols+",row: "+row+",offset: "+offset+",combWidth "+combWidth+",margin: "+settings.margin);
+                        }//  else {
+			//     row = 0;
+
+			//     left = combWidth * cols;
+			// }
+
                     });
                 }
 
-
+		console.log("nw: "+newWidth+", cw: "+combWidth+", set.mar: "+settings.margin+", set.thre: "+settings.threshold);
+		/* 多分このへんで，newWidthがバグってるから2行目でもバグるんやと思うんやけど，理由はわからん*/
                 if (newWidth < 1.5 * (combWidth + settings.margin)) {
                     $('.comb.placeholder').addClass('hide');
-
                     orderCombs(noOffset, fullTop);
                 } else if (newWidth < settings.threshold * (combWidth + settings.margin)) {
-                    $('.comb.placeholder').addClass('hide');
+		    $('.comb.placeholder').addClass('hide');
                     orderCombs(withOffset, halfTop);
                 } else {
                     $('.comb.placeholder').removeClass('hide');
@@ -156,17 +161,19 @@
                 
                 
                 $wrapper
-                    .height(top + combHeight + 100)
+                    .height(top + 2500 + 100)
                     .width(maxLeft - settings.margin)
             }
             
-            $(window).resize(function(){
-                //reorder(true);
+
+	    $(window).resize(function(){
+		reorder(true);
             });
-            
+	    
             buildHtml();
-            reorder(false);
+            reorder(true);
         }
+
 
         return this.each(function() {
             initialise(this);

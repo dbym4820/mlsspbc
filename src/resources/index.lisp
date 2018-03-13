@@ -13,11 +13,12 @@
 		  ((and (string= "teacher" (session-value 'user-role)) (get-lesson-id uid))
 		   `(:div
 		     (:h1 "プレゼン設計課題の準備を行う科目を選択してください")
-		     ,(get-all-lesson-list)))
-		  (t "")))		  
+		     ,(get-all-lesson-list uid)))
+		  (t "")))
 	 ,(let ((urole (session-value 'user-role)))
 	    (cond ((string= urole "learner")
 		   `(:div
+		     (:hr)
 		     (:a :href ,(append-root-url "/lesson-create-page") (:p :style "font-size:2em" "新しい課題を始める"))))
 		  ((string= urole "teacher")
 		   `(:ul
@@ -44,16 +45,17 @@
     (push :ul code)
     code))
 
-(defun get-all-lesson-name-list ()
-  (remove-duplicates
+(defun get-all-lesson-name-list (user-id)
+  (remove-if
+   #'(lambda (l-list)
+       (when (not (= (cadar (select "user_id" "lessons" (format nil "lesson_id=~A" (second l-list)))) user-id)) t))
    (mapcar #'(lambda (d)
-	       (list (get-lesson-name (cadr d)) (cadr d)))
-	   (select "lesson_id" "lessons"))
-    :test #'(lambda (d1 d2) (when (string= (car d1) (car d2)) t))))
+	       (list (get-lesson-name (second d)) (second d)))
+	   (select "lesson_id" "lessons"))))
 
-(defun get-all-lesson-list ()
+(defun get-all-lesson-list (user-id)
   (let ((code nil))
-    (loop for x in (get-all-lesson-name-list)
+    (loop for x in (get-all-lesson-name-list user-id)
 	  do (push `(:li :style "font-size: 2em;margin-bottom:10px;"
 		     (:a :href ,(append-root-url (format nil "/domain-select?lesson-id=~A" (second x)))
 			 ,(format nil "~A" (first x))))

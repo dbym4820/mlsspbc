@@ -26,7 +26,8 @@
 	       :cl-html5-parser
 	       ;;:ceramic ;; Can't load by abcl
 	       :cl-annot
-	       :envy)
+	       :envy
+	       :split-sequence)
   :components ((:static-file "LICENCE")
 	       (:static-file "README.md")
 	       (:module "src"
@@ -61,8 +62,8 @@
 					   (:file "register-process" :depends-on ("template" "slide"))
 					   (:file "concept-operator" :depends-on ("template" "slide"))
 					   (:file "inference-output" :depends-on ("template" "slide"))
-					   (:file "knowledge-struct" :depends-on ("template" "slide"))
-					   (:file "slide-knowledge-struct" :depends-on ("template" "slide"))
+					   (:file "knowledge-struct" :depends-on ("template" "slide" "knowledge-operate"))
+					   (:file "slide-knowledge-struct" :depends-on ("template" "slide" "knowledge-operate"))
 					   )))))
   :description "Meta-Learning Support System by using presentation slides"
   :in-order-to ((test-op (load-op cl-mlsspbc-test))))

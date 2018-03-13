@@ -46,28 +46,32 @@
 		    
 		    //オーバーレイ用のHTMLコードを、[body]内の最後に生成する
 		    $("body").append('<div id="modal-overlay"></div>');
-		    
-		    $("#modal-overlay, #modal-close-btn1, #modal-close-btn2").on('click',function(){
+
+		    $("#modal-overlay, #modal-close-btn1, #modal-close-btn2, #k-save-btn").on('click',function(){
 			
 			$("#modal-overlay").fadeOut("fast");
 			$("#modal-content-div").fadeOut("fast");
 			$("#modal-overlay").remove();
 		    });
 
-		    //保存ボタンを押したときの挙動
-		    $("#modal-save").on('click',function(){
+		    
+		    
+		    //保存ボタンを押したときの挙動 => cytoscape/save-knowledge.jsにて，語彙に知識をマッピングする処理に変更 // 20180313
+		    // $("#modal-save").on('click',function(){
 			
-			$("#modal-overlay").fadeOut("fast");
-			$("#modal-content-div").fadeOut("fast");
-			$("#modal-overlay").remove();
-			clickedNode.css("background", "#2E64FE");
-		    });
+		    // 	$("#modal-overlay").fadeOut("fast");
+		    // 	$("#modal-content-div").fadeOut("fast");
+		    // 	$("#modal-overlay").remove();
+		    // 	clickedNode.css("background", "#2E64FE");
+		    // });
 		
 		    //[$modal-overlay]をフェードインさせる
 		    centeringModalSyncer();
 		    $("#modalSelectedNode").text(selectedNodeName);    
 		    $("#modal-overlay").fadeIn("fast");
 		    $("#modal-content-div").fadeIn("fast");
+
+		    knowledgeRender();		    
                 }
             });
 
@@ -350,7 +354,7 @@
 
 	    var lineMakeButton = '<div class="make-line-btn">' +
                                     '<button class="nodes-line btn-xs btn-warning" type="button" onclick="makeLine1(\'' + dName  + '\');" >' +
-                                        '<img src="../../static/image/concept-map/edit.png" class="btn-img-content-r2" />' +
+                                        '<img src="../static/image/concept-map/edit.png" class="btn-img-content-r2" />' +
                                     '</button>' +
                                 '</div></div>';
 	    
@@ -377,7 +381,7 @@
 		              descString +
 		          "</div><div class='bottom-buttom'>"
 		          // ここまでノードのコンテンツ
-		          + editButton + lineMakeButton +
+		          // + editButton + lineMakeButton +
 		       "</div></div>";
 	    } else { // 通常インテンションノードの設定
 		return "<div class='node' node-id='"+this.data.id+"'>" +

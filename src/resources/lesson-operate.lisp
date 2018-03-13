@@ -4,13 +4,19 @@
   `(:div :id "dom-select" :style "height:400px;overflow:scroll;"
 	 ;; (:form :action "/lesson-create" :method "get"
 	 (:h1 "学習を始めるドメインを選択してください")
-	 ,(make-domain-list)
-	 (:input :type "text" :name "domain-id")
-	 (:input :type "submit" :value "send")))
+	 ,(let ((urole (session-value 'user-role)))
+	    (cond ((string= urole "teacher")
+		   `(:div
+		     ,(make-domain-list)
+		     (:input :type "text" :name "domain-id")
+		     (:input :type "submit" :value "send")))
+		  ((string= urole "learner")
+		   `(:div
+		     ,(make-domain-list)))))))
 
 (defun lesson-create ()
   (let* ((user-id (session-value 'user-id))
-	 (new-lesson-id (cadar (select "max(lesson_id)+1" "lessons")))
+	 (new-lesson-id (or (cadar (select "max(lesson_id)+1" "lessons")) 1))
 	 (domain-id (get-parameter "domain-id"))
 	 (root-vocabrary-id (cadar (select "root_vocabrary_id" "educational_domain" (format nil "domain_id =\"~A\"" domain-id))))
 	 (current-time (now))

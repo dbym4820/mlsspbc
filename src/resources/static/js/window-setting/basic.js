@@ -41,6 +41,8 @@ function centeringModalSyncer(){
     $("#modal-content-div").css({"left": pxleft + "px"});
 
     //[#modal-content-div]のCSSに[top]の値(pxtop)を設定
-    $("#modal-content-div").css({"top": pxtop + "px"});
+    $("#modal-content-div").css({"top": 10/* pxtop */ + "px"});
 
+    $("#modal-content-div").css({"height": 90 + "vh"});
+    
 }

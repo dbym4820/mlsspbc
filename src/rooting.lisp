@@ -21,7 +21,7 @@
 		:learner-planning
                 :learner-kma :slide-kma-save
 		:learner-collaborate 
-                :generate-advice :knowledge-struct :slide-knowledge-struct
+                :generate-advice :knowledge-struct :knowledge-edge :slide-knowledge-struct :slide-knowledge-edge
 		:sign-in :sign-up :sign-process :sign-out-process :register-process
 		:load-concept-map :save-concept-map
 		:load-intent-list :save-intent-list :add-intent-list
@@ -101,6 +101,8 @@
 	 ;; Inference output
 	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/inference-output")) (lambda () (eval (inference-output))))
 	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/knowledge-struct")) (lambda () (knowledge-struct)))
+	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/knowledge-edge")) (lambda () (knowledge-edge)))
 	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/slide-knowledge-struct")) (lambda () (slide-knowledge-struct)))
+	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/slide-knowledge-edge")) (lambda () (slide-knowledge-edge)))
  
 	 )))

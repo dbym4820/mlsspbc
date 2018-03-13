@@ -68,7 +68,7 @@ div.clear-float {
 }
 
 
-button.finish-declare-btn{
+button#finish-declare-btn{
 /* 文字サイズを1.4emに指定 */
     font-size: 1.4em;
     /* 文字の太さをboldに指定 */
