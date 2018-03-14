@@ -170,7 +170,7 @@
     (redirect-to-path (format nil "authering/authering-intension-map?lesson-id=~A" lesson-id))))
 
 (defun insert-intent (domain-id new-intent user-id)
-  (let ((new-vocabrary-id (cadar (select "max(id)+1" "goal_vocabrary")))
+  (let ((new-vocabrary-id (or (cadar (select "max(id)+1" "goal_vocabrary")) 1))
 	(timestamp (get-timestamp (now))))
     (send-query (format nil "insert into goal_vocabrary (\"id\", \"vocabrary\", \"domain_id\", \"defined_by\", \"created_at\", \"edited_at\", \"type\", \"explicit_knowledge\", \"implicit_knowledge\") values (\"~A\",\"~A\",\"~A\",\"~A\",\"~A\",\"~A\",\"~A\",\"~A\",\"~A\")"
 			new-vocabrary-id new-intent domain-id user-id timestamp timestamp "term" "{}" "{}"))))

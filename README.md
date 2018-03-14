@@ -1,4 +1,4 @@
-# LOAPEAT: (Learning) Objective-Aware Presentation design Environment forward Attitudes Transformation
+# LOAPEAT: Learning-Objective Aware Presentation design Environment forward Attitudes Transformation
 
 
 Origin name: Meta-Learning-Support-System-by-Presentation-Building-and-Correction (MLSSPBC)
@@ -13,6 +13,11 @@ CL-USER> (ql:quickload :mlsspbc :silent t)
 CL-USER> (mlsspbc:start-system)
 Hunchentoot process has launched by using port: 8000
 NIL
+```
+
+```
+$ ros install dbym4820/mlsspbc
+$ mlsspbc
 ```
 
 ## Author

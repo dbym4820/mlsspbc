@@ -37,8 +37,8 @@
   	 (sec (timestamp-second current-time))
 	 (time-stamp (format nil "~A-~2,,,'0@A-~2,,,'0@A ~2,,,'0@A:~2,,,'0@A:~2,,,'0@A" year month day hour mini sec))
 	 (user-id (cadar (select "user_id" "lessons" (format nil "lesson_id=\"~A\"" lesson-id))))
-	 (new-slide-id (cadar (select "max(slide_id)+1" "domain_slide")))
-	 (new-vocabrary-id (cadar (select "max(id)+1" "goal_vocabrary")))
+	 (new-slide-id (or (cadar (select "max(slide_id)+1" "domain_slide")) 1))
+	 (new-vocabrary-id (or (cadar (select "max(id)+1" "goal_vocabrary")) 1))
 	 (domain-id (cadar (select "domain_id" "lessons" (format nil "\"lesson_id\"=\"~A\"" lesson-id)))))
     ;;; スライドテーブルに突っ込む
     (send-query (format nil "insert into \"domain_slide\" (\"slide_id\", \"slide_path\", \"slide_title\", \"explicit_knowledge\", \"implicit_knowledge\", \"domain_id\", \"slide_errata\", \"uploaded_at\") values (\"~A\",\"~A\",\"~A\",\"~A\",\"~A\",\"~A\",\"~A\",\"~A\")"

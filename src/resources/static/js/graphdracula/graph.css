@@ -1,5 +1,53 @@
+
+#k-ins {
+ 
+}
+
 #knowledge-structure {
-    width: 60vw;
+    float: left;
+    width: 50vw;
     height: 60vh;
     border: 1px solid lightgray;
+}
+
+
+#k-selection-storage {
+    border: 1px solid black;
+    float: left;
+    height: 60vh;
+    width: 20vw;
+ 
+}
+
+#k-storage-explicit {
+    border: 1px solid lightgray;
+    height: 30vh;
+}
+
+#k-exp-div {
+    overflow: scroll;
+    height: 20vh;
+}
+
+#k-exp-list {
+ 
+}
+
+#k-storage-implicit {
+    border: 1px solid lightgray;
+    overflow: scroll;
+    height: 30vh;
+}
+
+#k-imp-div {
+    overflow: scroll;
+    height: 20vh;
+}
+
+#k-imp-list {
+
+}
+
+#clear-knowledge-insertion-btn {
+    float: left;
 }

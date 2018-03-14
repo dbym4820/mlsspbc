@@ -6,7 +6,7 @@
   (add-user-query user-name user-type password gender birth-year birth-month birth-day mail-address nationality))
 
 (defun add-user-query (user-name user-type password gender birth-year birth-month birth-day mail-address nationality)
-  (let* ((user-id (cadar (send-query (format nil "select max(user_id)+1 from user"))))
+  (let* ((user-id (or (cadar (send-query (format nil "select max(user_id)+1 from user"))) 1))
 	 (current-time (now))
 	 (year (timestamp-year current-time))
 	 (month (timestamp-month current-time))

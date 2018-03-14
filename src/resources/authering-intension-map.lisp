@@ -44,13 +44,29 @@
 	 (:div :id "modal-content-div"
 	       (:div :class "modal-header"
 		     (:button :id "modal-close-btn1" :type "button" :class "close" "&times;")
-		     (:h4 :id "modal-title" :class "modal-title" "Knowledge installation"))
+		     (:h4 :id "modal-title" :class "modal-title" "Knowledge Installation"))
 	       (:div :class "modal-body"
 		     (:h1 :id "super-class")
 		     (:br)
 		     (:div :id "modal-inner-content"
 			   (:h1 :id "modalSelectedNode")
-			   (:div :id "knowledge-structure")
+			   (:div :id "k-ins"
+				 (:div :id "knowledge-structure")
+				 (:div :id "k-selection-storage"
+				       (:div :id "k-storage-explicit"
+					     (:h1 (:u "Explicit Knowledge"))
+					     (:button :id "exp-insert-btn" :class "btn btn-success" :type "button" :onclick "insertExplicitKnowledgeIntoDiv()" "insert")
+					     (:br)
+					     (:div :id "k-exp-div"
+						   (:ul :id "k-exp-list")))
+				       (:div :id "k-storage-implicit"
+					     (:h1 (:u "Implicit Knowledge"))
+					     (:button :id "imp-insert-btn" :class "btn btn-danger" :type "button" :onclick "insertImplicitKnowledgeIntoDiv()" "insert")
+					     (:br)
+					     (:div :id "k-imp-div"
+						   (:ul :id "k-imp-list")))))
+			   (:button :id "clear-knowledge-insertion-btn" :type "button" :class "btn btn-info" :onclick "clearKnowledgeInsertion();" "clear")
+			   (:div :style "clear:both;")
 			   (:br)
 			   (:form :id "k-submit-form"
 				  (:input :id "lesson-id-in-modal" :type "hidden" :value ,(get-parameter "lesson-id"))
@@ -113,3 +129,4 @@
     (push :id result-code-list)
     (push :div result-code-list)
     result-code-list))
+

@@ -33,25 +33,6 @@
 			   (:div :style "clear:both;"))))
 	 (:button :id "finish-declare-btn" "Finish to Presentation Design Task") ;;終了宣言ボタン
 	 (:button :type "button" :onclick "saveDatas();" "SAVE") ;;コンセプトマップのセーブボタン => 一段落したら，intro-js/portfolio.jsないに，確認後セーブ処理として移す（このボタンは消して，終了宣言ボタンと同期させる
-	 ;;各コンセプトをクリックしたときの詳細をモーダルとして表示
-	 (:div :id "modal-content-div"
-	       (:div :class "modal-header"
-		     (:button :id "modal-close-btn1" :type "button" :class "close" "&times;")
-		     (:h4 :id "modal-title" :class "modal-title" "Knowledge installation"))
-	       (:div :class "modal-body"
-		     (:h1 :id "super-class")
-		     (:br)
-		     (:div :id "modal-inner-content"
-			   (:h1 :id "modalSelectedNode")
-			   (:div :id "knowledge-structure")
-			   (:br)
-			   (:form :id "k-submit-form"
-				  (:input :id "lesson-id-in-modal" :type "hidden" :value ,(get-parameter "lesson-id"))
-				  (:input :id "lesson-id-in-modal" :type "hidden" :value ,(get-parameter "lesson-id")))))
-	       (:div :class "modal-footer"
-		     (:button :type "button" :id "modal-close-btn2" :class "btn btn-default" "close")
-		     (:button :type "button" :class "btn btn-primary" :data-dismiss "modal" :id "k-save-btn" "save")))
-	 (:br)
 	 (:br)
 	 (:script :type "text/javascript" :src ,(js-path "cytoscape/save-knowledge.js"))
 	 (:script :type "text/javascript" :src ,(js-path "window-setting/redirect.js"))

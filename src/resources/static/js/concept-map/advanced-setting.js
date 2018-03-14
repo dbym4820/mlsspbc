@@ -46,8 +46,9 @@
 		    
 		    //オーバーレイ用のHTMLコードを、[body]内の最後に生成する
 		    $("body").append('<div id="modal-overlay"></div>');
-
-		    $("#modal-overlay, #modal-close-btn1, #modal-close-btn2, #k-save-btn").on('click',function(){
+		    
+		    
+		    $("#modal-overlay, #modal-close-btn1, #modal-close-btn2").on('click',function(){
 			
 			$("#modal-overlay").fadeOut("fast");
 			$("#modal-content-div").fadeOut("fast");
@@ -71,7 +72,9 @@
 		    $("#modal-overlay").fadeIn("fast");
 		    $("#modal-content-div").fadeIn("fast");
 
-		    knowledgeRender();		    
+		    clearKnowledgeInsertion();
+		    knowledgeRender();
+		    knowledgeInitialize();
                 }
             });
 

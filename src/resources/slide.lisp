@@ -36,7 +36,7 @@
 	 (time-stamp (format nil "~A-~2,,,'0@A-~2,,,'0@A ~2,,,'0@A:~2,,,'0@A:~2,,,'0@A" year month day hour mini sec)))
     (if (already-kma-p lesson-id slide-id)
 	(update "user_slide" (format nil "kma_result=\"~A\", edited_at=\"~A\"" kma-result time-stamp) (format nil "slide_id=\"~A\" and lesson_id=\"~A\"" slide-id lesson-id))
-	(let ((selection-id (cadar (select "max(selection_id)+1" "user_slide"))))
+	(let ((selection-id (or (cadar (select "max(selection_id)+1" "user_slide")) 1)))
 	  (send-query (format nil "insert into user_slide(\"selection_id\", \"slide_id\", \"lesson_id\", \"kma_result\", \"created_at\", \"edited_at\") values (\"~A\",\"~A\",\"~A\",\"~A\",\"~A\",\"~A\")" selection-id slide-id lesson-id kma-result time-stamp time-stamp))))))
 
 (defun highlighted-slide-list (lesson-id kma-number)
