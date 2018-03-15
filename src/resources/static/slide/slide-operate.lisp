@@ -26,4 +26,5 @@
 		 (when loop-frag
 		   (setf lines (concatenate 'string lines line (princ-to-string #\Newline))))))
       (close in))
+	
     lines)))

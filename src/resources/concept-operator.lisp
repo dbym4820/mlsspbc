@@ -67,11 +67,8 @@
 	       (second (car (select "vocabrary" "goal_vocabrary" (format nil "id=~A" id-num))))))
       (relation-encoder (mapcar #'(lambda (d) (list (get-vocabrary (second d)) (get-vocabrary (fourth d)) (sixth d))) data-set)))))
 
-
 ;;; 概念間の関係を取得する
 ;; (defun get-relations ()
-  
-
 
 ;; not yet
 ;; (defunction-page save-concept-map ()
@@ -102,7 +99,8 @@
 				 collect (list (cons :node-id (format nil "~A" (sixth d)))
 					       (cons :vocabrary-id (format nil "~A" (second d)))
 					       (cons :parent (format nil "~A" (fourth d)))
-					       (cons :type (second (car (select "type" "goal_vocabrary" (format nil "id=\"~A\"" (or (second d) 1))))))))))
+					       (cons :type (second (car (select "type" "goal_vocabrary"
+										(format nil "id=\"~A\"" (or (second d) 1))))))))))
     (let ((insert-list nil)
 	  (update-list nil)
 	  (delete-list nil)
@@ -136,12 +134,23 @@
       			 (format nil "\"node_id\"=\"~A\" and \"lesson_id\"=\"~A\"" (cdr (first d)) lesson-id))))
       (when insert-list
       	(insert "user_concepts" "\"lesson_id\",\"node_id\",\"parent_term_id\",\"concept_term_id\",\"created_at\",\"edited_at\",\"concept_type\""
-      		(format nil "~:{(\"~A\",\"~A\",\"~A\",\"~A\",\"~A\",\"~A\",\"~A\")~:^,~}"
+      		(format nil "~:{\"~A\",\"~A\",\"~A\",\"~A\",\"~A\",\"~A\",\"~A\"~:^,~}"
       			(loop for d in insert-list
       			      collect (list lesson-id (cdr (first d)) (cdr (third d)) (cdr (second d)) timestamp timestamp (cdr (fourth d)))))))
       (when delete-list
 	(loop for d in delete-list
-	      do (sql-delete "user_concepts" (format nil "(\"lesson_id\"=\"~A\") and (\"node_id\"=\"~A\")" lesson-id (cdr (first d)))))))))
+	      do (sql-delete "user_concepts" (format nil "(\"lesson_id\"=\"~A\") and (\"node_id\"=\"~A\")" lesson-id (cdr (first d))))))
+
+      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+      ;;ここで，語彙をすべてさかのぼり，スライドに着けられている知識，その明示/潜在をデータベースに保存
+      ;;テーブルは，goal_vocabraryとdomain_slideのどちらにも設置しよう
+      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+      ;; 定義は　knowledge-operate.lisp内
+
+      教師以外はスライドデータをアップデートできないことを保証する必要あり
+      ;; (if (string= user-role "teacher")
+      ;; 	  (slide-knowledge-save lesson-id))
+      )))
 
 
 

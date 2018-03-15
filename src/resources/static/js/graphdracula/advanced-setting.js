@@ -40,6 +40,14 @@ function knowledgeRender(){
 	edges: knowledgeEdgeData
     };
 
+    /* Edit の設定用 */
+    function reflectEdit(d, callback){
+	d.label = $("#node-edit-text-area").val();
+	$("#node-edit-text-area").val(null);
+	callback(d);
+    }
+
+    
     var options = {
 	interaction:{
 	    hover:true,
@@ -47,7 +55,12 @@ function knowledgeRender(){
 	    navigationButtons: true
 	},
 	manipulation: {
-	    enabled: true
+	    enabled: true,
+	    editNode: function (d, callback) {
+		$("#before-edit-knowledge-label").empty("span");
+		$("#before-edit-knowledge-label").append("<span>"+d.label+"</span>");
+		document.getElementById('knolwedge-edit-text-save-btn').onclick = reflectEdit.bind(this, d, callback);
+            }
 	},
 	configure: {
 	    enabled: false,

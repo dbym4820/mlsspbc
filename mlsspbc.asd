@@ -61,7 +61,7 @@
 					   (:file "sign-up" :depends-on ("template" "slide"))
 					   (:file "sign-process" :depends-on ("template" "slide"))
 					   (:file "register-process" :depends-on ("template" "slide"))
-					   (:file "concept-operator" :depends-on ("template" "slide"))
+					   (:file "concept-operator" :depends-on ("template" "slide" "knowledge-operate"))
 					   (:file "inference-output" :depends-on ("template" "slide"))
 					   (:file "knowledge-struct" :depends-on ("template" "slide" "knowledge-operate"))
 					   (:file "slide-knowledge-struct" :depends-on ("template" "slide" "knowledge-operate"))

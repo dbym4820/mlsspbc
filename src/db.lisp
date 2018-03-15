@@ -40,7 +40,7 @@
 
 @export
 (defun insert (table param-name param)
-  (send-query (format nil "insert into ~A (~A) values ~A" table param-name param)))
+  (send-query (format nil "insert into ~A (~A) values (~A)" table param-name param)))
 
 @export
 (defun sql-delete (table condition)

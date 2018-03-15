@@ -71,9 +71,17 @@
 			   (:form :id "k-submit-form"
 				  (:input :id "lesson-id-in-modal" :type "hidden" :value ,(get-parameter "lesson-id"))
 				  (:input :id "lesson-id-in-modal" :type "hidden" :value ,(get-parameter "lesson-id")))))
+	       (:div :class "modal-edit-tools" :style "margin-left: 30px;"
+		     (:div
+		      (:label "編集前のノード: "
+			      (:span :id "before-edit-knowledge-label" )))
+		     (:br)
+		     (:input :type "text" :id "node-edit-text-area" :style "width:500px; height:40px;" :placeholder "エディットするノードのラベルを入力してください")
+		     (:button :type "button" :class "btn btn-info" :id "knolwedge-edit-text-save-btn" "save-knowledge"))
 	       (:div :class "modal-footer"
 		     (:button :type "button" :id "modal-close-btn2" :class "btn btn-default" "close")
 		     (:button :type "button" :class "btn btn-primary" :data-dismiss "modal" :id "k-save-btn" "save")))
+	 
 	 (:br)
 	 (:br)
 	 (:script :type "text/javascript" :src ,(js-path "cytoscape/save-knowledge.js"))
@@ -129,4 +137,3 @@
     (push :id result-code-list)
     (push :div result-code-list)
     result-code-list))
-
