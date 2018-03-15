@@ -45,7 +45,7 @@
       (format nil "uk: ~A~%sk: ~A~%se: ~A~%" user-k-list system-k-list system-edge-list)
       ;; ここで，Goal_vocabraryのExplicit_Knowledgeとdomain_knowledgeのImp,Expそれぞれ(vocabrary = nodeContentのとこ)をアップデートする．Domain_knowledgeにはインサートかアップデート．同じドメインIDの場合，それらすべてを破棄した後
       ;; まず，関係するドメイン知識をすべて破棄
-      (send-query (format nil "delete from \"domain_knowledge\" where \"domain_id\" = ~A" domain-id))
+      ;;(send-query (format nil "delete from \"domain_knowledge\" where \"domain_id\" = ~A" domain-id))
       )))
 
 
