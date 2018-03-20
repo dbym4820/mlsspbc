@@ -138,6 +138,41 @@ function knowledgeRender(){
 // concept-map/advanced-setting.js ないのModal設定のところでRender後に呼びだし
 function knowledgeInitialize (){
     // 右側のExpKとImpKのリストに，既選択知識を挿入し，insertExpとinsertImp，insertedKnowledgeにも挿入
+    let nodeContent = $("#modalSelectedNode").html();
+    let lessonId = getUrlVars()['lesson-id'];
+
+    $.ajax({
+	method: "GET",
+	url: location.pathname+'/../../exp-knowledge-list?node-content='+nodeContent+'&lesson-id='+lessonId,
+	dataType: 'text',
+	async: false,
+	success: function(d){
+	    let dList = eval(d);
+	    dList.forEach(function(tmpD){
+		console.log(tmpD);
+		$("#k-exp-list").append("<li id='exp-k-data-id-"+tmpD['id']+"'>"+getKnowledgeLabelFromId(tmpD['id'])+"</li>");
+		insertedKnowledge.push(tmpD['id']);
+		insertExp.push(tmpD['id']);
+	    });
+	}
+    });
+    
+    $.ajax({
+	method: "GET",
+	url: location.pathname+'/../../imp-knowledge-list?node-content='+nodeContent+'&lesson-id='+lessonId,
+	dataType: 'text',
+	async: false,
+	success: function(d){
+	    let dList = eval(d);
+	    dList.forEach(function(tmpD){
+		console.log(tmpD);
+		$("#k-imp-list").append("<li id='imp-k-data-id-"+tmpD['id']+"'>"+getKnowledgeLabelFromId(tmpD['id'])+"</li>");
+		insertedKnowledge.push(tmpD['id']);
+		insertImp.push(tmpD['id']);
+	    });
+	}
+    });
+
 }
 
 function knowledgeSelectionSave(nodeContent){

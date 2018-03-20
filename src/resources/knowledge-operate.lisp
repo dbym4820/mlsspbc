@@ -83,8 +83,90 @@
   ;; なので，スライドの１つ親ノードをすべて見つけ，それらの知識を当該スライドの知識にすればいい
   ;; 今は念の為，domain_slideとgoal_vocabraryのどちらにも明示/潜在データを挿入しておくがいずれはdomain_slideに固定したい
 
-  ;; 初めに，user_conceptsから「スライドノード」を見つけ，そのスライドのPathを調べる必要がある
-  )
+  ;; 今のレッスン内（操作している教師の）にあるスライドの情報を取得
+
+  (let* ((domain-id (cadar (select "domain_id" "lessons" (format nil "lesson_id='~A'" lesson-id))))
+	 (nid-eximklist-list
+	   (loop for xd in
+			(mapcar #'(lambda (vid-voc)
+				    (list
+				     (first vid-voc)
+				     (mapcar #'(lambda (pid)
+						 (cadar (select "concept_term_id" "user_concepts"
+								(format nil "lesson_id='~A' and node_id='~A'" 1 pid))))
+					     (append
+					      (mapcar #'second (select "parent_node_id" "other_relations" 
+								       (format nil "child_node_id='~A'" (first vid-voc))))
+					      
+					      (mapcar #'second
+						      (select "parent_term_id" "user_concepts"
+							      (format nil "concept_term_id = ~A" (first vid-voc))))))))
+				(mapcar #'(lambda (vid-vv-vty-tmp-without-term)
+					    (list (first vid-vv-vty-tmp-without-term) (second vid-vv-vty-tmp-without-term)))
+					(remove-if #'(lambda (vid-vv-vty-tmp)
+						       (not (string= "slide" (third vid-vv-vty-tmp))))
+						   (mapcar #'(lambda (vid-vv-vty)
+							       (loop for x in vid-vv-vty
+								     for y from 0
+								     when (oddp y)
+								       collect x))					     
+							   (select "goal_vocabrary.id, goal_vocabrary.vocabrary, goal_vocabrary.type" "goal_vocabrary, user_concepts"
+								   (format nil "user_concepts.lesson_id = '~A' and goal_vocabrary.id = user_concepts.concept_term_id" lesson-id))))))
+		 collect (cons
+			  (first xd)
+			  (mapcar #'(lambda (dd)
+				      (let ((tmp (select "explicit_knowledge, implicit_knowledge" "goal_vocabrary"
+							 (format nil "id = '~A'" dd))))
+					(list (car (mapcar #'second tmp))
+					      (car (mapcar #'fourth tmp)))))
+				  (second xd)))))
+	 (nid-ex-im-k
+	   (mapcar #'(lambda (d)
+		       (list
+			(first d)
+			(mapcar #'(lambda (dd)
+				    (loop for x in dd
+					  collect (split-sequence:split-sequence #\, (string-trim "}" (string-trim "{" (string-trim "\"" x))))))
+				(subseq d 1))))
+		   nid-eximklist-list))
+	 (nid-expklist-impklist
+	   (mapcar #'(lambda (x)
+		       (list
+			(first x)
+			(remove-if #'(lambda (str)
+				       (string= str ""))
+				   (alexandria:flatten 
+				    (loop for d in (second x)
+					  collect (first d))))
+			(remove-if #'(lambda (str)
+				       (string= str ""))
+				   (alexandria:flatten 
+				    (loop for d in (second x)
+					  collect (second d))))))
+		   nid-ex-im-k)))
+
+    (loop for slide-info-list in nid-expklist-impklist
+	  ;; goal_vocabraryへのセーブ
+	  do (update "goal_vocabrary" (format nil "explicit_knowledge='~A', implicit_knowledge='~A'"
+					      (if (second slide-info-list)
+						  (format nil "{~{~A~^,~}}" (second slide-info-list))
+						  (format nil "{}"))
+					      (if (third slide-info-list)
+						  (format nil "{~{~A~^,~}}" (third slide-info-list))
+						  (format nil "{}")))
+		     (format nil "domain_id='~A' and id='~A'" domain-id (first slide-info-list)))
+	     ;; domain_slideへのセーブ
+	  do (update "domain_slide" (format nil "explicit_knowledge='~A', implicit_knowledge='~A'"
+					    (if (second slide-info-list)
+						(format nil "{~{~A~^,~}}" (second slide-info-list))
+						(format nil "{}"))
+					    (if (third slide-info-list)
+						(format nil "{~{~A~^,~}}" (third slide-info-list))
+						(format nil "{}")))
+		     (format nil "domain_id='~A' and slide_path='~A'" 
+			     domain-id
+			     (cadar (select "vocabrary" "goal_vocabrary" (format nil "id='~A'" (first slide-info-list)))))))))
+
 
 
 

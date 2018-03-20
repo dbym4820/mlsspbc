@@ -85,6 +85,7 @@
 (defunction-page save-concept-map ()
   (let* (;; (user-name "tomoki")
 	 ;; (user-id (cadar (select "user_id" "user" (format nil "user_name=\"~A\"" user-name))))
+	 (user-role (session-value 'user-role))
 	 (lesson-id (get-parameter "lessonid"))
 	 (timestamp (get-timestamp (now)))
 	 (data (post-parameter "dat"))
@@ -147,9 +148,9 @@
       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
       ;; 定義は　knowledge-operate.lisp内
 
-      教師以外はスライドデータをアップデートできないことを保証する必要あり
-      ;; (if (string= user-role "teacher")
-      ;; 	  (slide-knowledge-save lesson-id))
+      ;;教師以外はスライドデータをアップデートできないことを保証する必要あり
+      (when (string= user-role "teacher")
+	(slide-knowledge-save lesson-id))
       )))
 
 

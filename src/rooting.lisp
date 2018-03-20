@@ -15,7 +15,7 @@
 		:authering-intension-map :authering-slide :authering-target
 		:authering-slide-check :upload-slide
 		:authering-kma-save
-                :knowledge-operate :knowledge-save
+                :knowledge-operate :knowledge-save :exp-knowledge-list :imp-knowledge-list
                 :slide-knowledge-operate :slide-knowledge-save
 		:term-knowledge-operate :term-knowledge-save
 		:learner-planning
@@ -104,5 +104,9 @@
 	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/knowledge-edge")) (lambda () (knowledge-edge)))
 	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/slide-knowledge-struct")) (lambda () (slide-knowledge-struct)))
 	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/slide-knowledge-edge")) (lambda () (slide-knowledge-edge)))
- 
+
+	 ;; knowledge-list
+	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/exp-knowledge-list")) (lambda () (exp-knowledge-list)))
+	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/imp-knowledge-list")) (lambda () (imp-knowledge-list)))
+	 
 	 )))
