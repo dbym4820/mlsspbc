@@ -136,38 +136,75 @@ function makeLine1(node_Id) {
     } else { // １クリックされている時
 	draw_line(clickedNodeId, new_Node_Id);
 	saveLineList(clickedNodeId, new_Node_Id, "order");
+	
 	clickFrag = false;
 	clickedNodeId = '';
 	console.log("２回目");
     }
 }
 
-// JSONのセーブ
-function saveLineList(parent, child, functor){
-    let newLineStr = "{\"parent\":\""+parent+"\",\"child\":\""+child+"\",\"function\":\""+functor+"\"}";
-    let jsonObject = "[";
 
+
+
+// Line JSONのセーブ
+function saveLineList(parentId, childId, functor){
     let sideLineUrlBase = location.pathname+"/../../";
+    var lessonId = getUrlVars()['lesson-id'];
+    $.ajax({
+    	type: 'POST',
+    	url: sideLineUrlBase+"save-side-line-list",
+    	dataType: 'text',
+	data:{ lessonId: lessonId,
+	       parent: parentId.slice(1),
+	       child: childId.slice(1) }
+    }).done(function(data){
+    	console.log(data);
+    }).fail(function(data){
+    	console.log("error");
+    });
+
+    // $.getJSON(sideLineUrlBase+"save-side-line-list?lesson-id="+lessonId+"parent="+parent+"&child="+child, function(data) {
+	
+    // });
+    // let newLineStr = "{\"parent\":\""+parent+"\",\"child\":\""+child+"\",\"function\":\""+functor+"\"}";
+    // let jsonObject = "[";
+
+    // 
+    // let sideLineUrlBase = location.pathname+"/../../";
+    // var lessonId = getUrlVars()['lesson-id'];
     
-    $.getJSON(sideLineUrlBase+"load-slide-line-list", function(data) {
-	let dataLen = data.length;
-	if(dataLen != 0){
-	    for(let i=0; i<=dataLen-1; i++){
-		jsonObject += "{\"parent\":"+JSON.stringify(data[i].parent) + "," +
-		    "\"child\":"+ JSON.stringify(data[i].child) + "," +
-		    "\"function\":"+ JSON.stringify(data[i].function) + "},";
-	    }
-	}
-	jsonObject += newLineStr + "]";
-	$.ajax({
-    	    type: 'POST',
-    	    url: sideLineUrlBase+'save-side-line-list',
-    	    dataType: 'text',
-    	    data:{ dat: jsonObject},
-	}).done(function(data){
-    	    console.log("success");
-	}).fail(function(data){
-    	    alert("error");
+    // $.getJSON(sideLineUrlBase+"load-slide-line-list", function(data) {
+    // 	let dataLen = data.length;
+    // 	if(dataLen != 0){
+    // 	    for(let i=0; i<=dataLen-1; i++){
+    // 		jsonObject += "{\"parent\":"+JSON.stringify(data[i].parent) + "," +
+    // 		    "\"child\":"+ JSON.stringify(data[i].child) + "," +
+    // 		    "\"function\":"+ JSON.stringify(data[i].function) + "},";
+    // 	    }
+    // 	}
+    // 	jsonObject += newLineStr + "]";
+    // 	$.ajax({
+    // 	    type: 'POST',
+    // 	    url: sideLineUrlBase+'save-side-line-list',
+    // 	    dataType: 'text',
+    // 	    data:{ dat: jsonObject},
+    // 	}).done(function(data){
+    // 	    console.log("success");
+    // 	}).fail(function(data){
+    // 	    alert("error");
+    // 	});
+    // });
+}
+
+
+$(window).load(function(){
+    
+    // 兄弟リンクの描画
+    let sideLineUrlBase = location.pathname+"/../../";
+    var lessonId = getUrlVars()['lesson-id'];
+    $.getJSON(sideLineUrlBase+"load-slide-line-list?lesson-id="+lessonId, function(dataList) {
+	dataList.forEach(function(d){
+	    draw_line(d.parent, d.child, d.function);
 	});
     });
-}
+});

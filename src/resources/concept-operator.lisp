@@ -50,22 +50,41 @@
 
 
 (defun relation-encoder (json-list)
-  (let ((str "["))
-    (labels ((req (head tail tmp-str)
-	       (cond ((null tail)
-		      (format nil "{\"parent\":\"#~A\",\"child\":\"#~A\",\"function\":\"#~A\"\}]"
-			      (first head) (second head) (third head)))
-		     ((listp head)
-		      (format nil "~A\{\"parent\":\"#~A\",\"child\":\"#~A\",\"function\":\"#~A\"\},~A"
-			      tmp-str (first head) (second head) (third head) (req (car tail) (cdr tail) ""))))))
-      (req (car json-list) (cdr json-list) str))))
+  (format nil "[~:{{\"parent\":\"#~A\", \"child\":\"#~A\", \"function\":\"~A\"}~:^,~}]" json-list)
+  ;; (let ((str "["))
+  ;;   (labels ((req (head tail tmp-str)
+  ;; 	       (cond ((null tail)
+  ;; 		      (format nil "{\"parent\":\"#~A\",\"child\":\"#~A\",\"function\":\"~A\"\}]"
+  ;; 			      (first head) (second head) (third head)))
+  ;; 		     ((listp head)
+  ;; 		      (format nil "~A\{\"parent\":\"#~A\",\"child\":\"#~A\",\"function\":\"~A\"\},~A"
+  ;; 			      tmp-str (first head) (second head) (third head) (req (car tail) (cdr tail) ""))))))
+  ;;     (req (car json-list) (cdr json-list) str)))
+  )
 
 (defunction-page load-slide-line-list ()
-  (let* ((lesson-id 1)
-	 (data-set (select "parent_node_id,child_node_id,relation_type" "other_relations" (format nil "(lesson_id=~A)" lesson-id))))
+  (let* ((lesson-id (get-parameter "lesson-id"))
+	 (tmp-data-set (select "parent_node_id,child_node_id,relation_type" "other_relations"
+			       (format nil "lesson_id=~A" lesson-id)))
+	 (data-set (loop for x in tmp-data-set
+			 collect (list (first x)
+				       (format nil "~A"
+					       (cadar (select "concept_term_id" "user_concepts"
+							      (format nil "node_id='~A' and lesson_id='~A'"
+								      (second x) lesson-id))))
+				       (third x)
+				       (format nil "~A"
+					       (cadar (select "concept_term_id" "user_concepts"
+							      (format nil "node_id='~A' and lesson_id='~A'"
+								      (fourth x) lesson-id))))
+				       (fifth x)
+				       (sixth x)))))
     (labels ((get-vocabrary (id-num)
-	       (second (car (select "vocabrary" "goal_vocabrary" (format nil "id=~A" id-num))))))
-      (relation-encoder (mapcar #'(lambda (d) (list (get-vocabrary (second d)) (get-vocabrary (fourth d)) (sixth d))) data-set)))))
+	       (cadar (select "vocabrary" "goal_vocabrary" (format nil "id=~A" id-num)))))
+      (relation-encoder (mapcar #'(lambda (d) (list (get-vocabrary (second d))
+						    (get-vocabrary (fourth d))
+						    (sixth d)))
+				data-set)))))
 
 ;;; 概念間の関係を取得する
 ;; (defun get-relations ()
@@ -187,9 +206,29 @@
 
 
 (defunction-page save-side-line-list ()
-  (let ((data (post-parameter "dat")))
-    (with-open-file (file (format nil "~Aconcepts/side-line.json" (config :static-path)) :if-exists :supersede :direction :output)
-      (format file data))))
+  (let* ((lesson-id (post-parameter "lessonId"))
+	 (domain-id (cadar (select "domain_id" "lessons" (format nil "lesson_id=~A" lesson-id)))) 
+	 (parent-node-id (cadar (select "node_id" "user_concepts"
+					(format nil "lesson_id=~A and concept_term_id=~A"
+						lesson-id
+						(cadar (select "id" "goal_vocabrary"
+							       (format nil "vocabrary='~A' and domain_id='~A'"
+								       (post-parameter "parent")
+								       domain-id)))))))
+	(child-node-id (cadar (select "node_id" "user_concepts"
+					(format nil "lesson_id=~A and concept_term_id=~A"
+						lesson-id
+						(cadar (select "id" "goal_vocabrary"
+							       (format nil "vocabrary='~A' and domain_id='~A'"
+								       (post-parameter "child")
+								       domain-id)))))))
+	(timestamp (get-timestamp (now)))
+	(new-relation-id (or (cadar (select "max(relation_id)+1" "other_relations")) 1)))
+    (insert "other_relations"
+    	    "relation_id,parent_node_id,child_node_id,lesson_id,created_at,edited_at,relation_type"
+    	    (format nil "~A,~A,~A,~A,'~A','~A','~A'" new-relation-id parent-node-id child-node-id lesson-id timestamp timestamp "super"))
+    (format nil "~A,~A,~A,~A,~A,~A,~A" new-relation-id parent-node-id child-node-id lesson-id timestamp timestamp "super")
+    ))
 
 
 (defunction-page find-parent-node-id ()

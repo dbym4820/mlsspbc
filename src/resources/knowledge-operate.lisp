@@ -93,10 +93,13 @@
 				     (first vid-voc)
 				     (mapcar #'(lambda (pid)
 						 (cadar (select "concept_term_id" "user_concepts"
-								(format nil "lesson_id='~A' and node_id='~A'" 1 pid))))
+								(format nil "lesson_id='~A' and node_id='~A'" lesson-id pid))))
 					     (append
 					      (mapcar #'second (select "parent_node_id" "other_relations" 
-								       (format nil "child_node_id='~A'" (first vid-voc))))
+								       (format nil "child_node_id='~A'"
+									       (cadar (select "node_id" "user_concepts"
+											      (format nil "concept_term_id='~A'"
+												      (first vid-voc)))))))
 					      
 					      (mapcar #'second
 						      (select "parent_term_id" "user_concepts"

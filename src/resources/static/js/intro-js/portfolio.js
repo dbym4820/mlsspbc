@@ -1,9 +1,9 @@
 /************ 各スライドについての助言を出力する設定を書くファイル ***********/
 
-function loadAdvice (slideId, callback){
+function loadAdvice (slideId, lessonId, callback){
     $.ajax({
 	type: 'GET',
-	url: location.pathname+'/../../generate-advice?slide-id='+slideId,
+	url: location.pathname+'/../../generate-advice?slide-id='+slideId+'&lesson-id='+lessonId,
 	dataType: 'text',
 	async: false,
 	success: function(data){
@@ -15,10 +15,11 @@ function loadAdvice (slideId, callback){
 }
 
 function plusIntroTug (){
+    var lessonId = getUrlVars()['lesson-id'];
     var count = 1;
     $(".slide-node").each(function(index, element){
 	var slidePathId = $(element).find(".slide-node-content").attr("id");
-	loadAdvice(slidePathId, function(res){
+	loadAdvice(slidePathId, lessonId, function(res){
 	    $(element).attr("data-intro", res);
 	});
 	$(element).attr("data-step", count);

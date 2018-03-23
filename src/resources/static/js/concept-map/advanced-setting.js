@@ -87,6 +87,7 @@
                     self.newNode("", thisId);
                 }
                 e.stopPropagation();
+		self.redraw();
             });
 
 
@@ -117,7 +118,7 @@
                 } else {
                     self.deleteNode(thisId);
                 }
-		this.draw();
+		this.redraw();
                 e.stopPropagation();
             });
 	    
@@ -128,14 +129,22 @@
 
 	    // 兄弟リンク描画
 	    var jsonObject;
-	    $.getJSON("../../../load-slide-line-list", function(data) {
-		var dataLen = data.length;
-		for(var i=0; i<=dataLen-1; i++){
-		    draw_line(eval(JSON.stringify(data[i].parent)), eval(JSON.stringify(data[i].child)));
-		}
-	    });	    
+
         }
 
+	this.redraw = function(){
+	    this.draw();
+	    // 兄弟リンクの再描画
+	    let sideLineUrlBase = location.pathname+"/../../";
+	    var lessonId = getUrlVars()['lesson-id'];
+	    $.getJSON(sideLineUrlBase+"load-slide-line-list?lesson-id="+lessonId, function(dataList) {
+		dataList.forEach(function(d){
+		    draw_line(d.parent, d.child, d.function);
+		});
+	    });
+
+	}
+	
 	this.updateNode = function(content, nodeId){
 	    if(content.charAt(0) === "."){
 		$("[node-id ^= '" + nodeId + "']").css('width', '250px');
@@ -205,7 +214,7 @@
 
             nodes[nodes[id].data.parent].removeChild(id);
             delete nodes[id];
-            self.draw();
+            self.redraw();
         }
 
 	this.getNode = function(id){
@@ -384,7 +393,8 @@
 		              descString +
 		          "</div><div class='bottom-buttom'>"
 		          // ここまでノードのコンテンツ
-		          // + editButton + lineMakeButton +
+		          // + editButton
+		    + lineMakeButton +
 		       "</div></div>";
 	    } else { // 通常インテンションノードの設定
 		return "<div class='node' node-id='"+this.data.id+"'>" +

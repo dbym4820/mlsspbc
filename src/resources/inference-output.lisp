@@ -66,7 +66,11 @@
 
 (defun get-parent-node-ids-from-slide-id (slide-id lesson-id)
   (append
-   (mapcar #'second (select "parent_node_id" "other_relations" (format nil "child_node_id='~A' and lesson_id='~A'" slide-id lesson-id)))
+   (mapcar #'second (select "parent_node_id" "other_relations"
+			    (format nil "child_node_id='~A' and lesson_id='~A'"
+				    (cadar (select "node_id" "user_concepts"
+						   (format nil "lesson_id=~A and concept_term_id=~A" lesson-id slide-id)))
+				    lesson-id)))
    (mapcar #'cadr (select "parent_term_id" "user_concepts"
 			  (format nil "concept_term_id = \"~A\" and lesson_id = \"~A\"" slide-id lesson-id)))))
 
@@ -77,7 +81,11 @@
   
 (defun get-parent-node-ids-from-node-id (node-id lesson-id)
   (append
-   (mapcar #'second (select "parent_node_id" "other_relations" (format nil "child_node_id='~A' and lesson_id='~A'" node-id lesson-id)))
+   (mapcar #'second (select "parent_node_id" "other_relations"
+			    (format nil "child_node_id='~A' and lesson_id='~A'"
+				    (cadar (select "node_id" "user_concepts"
+						   (format nil "lesson_id=~A and concept_term_id=~A" lesson-id node-id)))
+				    lesson-id)))
    (mapcar #'cadr (select "parent_term_id" "user_concepts"
 			  (format nil "node_id = \"~A\" and lesson_id = \"~A\"" node-id lesson-id)))))
 
@@ -135,7 +143,20 @@
 
 
 (defun get-node-knowledge (node-id)
-  (cadar (select "explicit_knowledge, implicit_knowledge" "goal_vocabrary" (format nil "id = \"~A\"" node-id))))
+  ;; このNODEIDは，goal_vocabraryのID
+  (let* ((tmp-list (car (select "explicit_knowledge, implicit_knowledge" "goal_vocabrary" (format nil "id = \"~A\"" node-id))))
+	 (knowledge-string-list (list (second tmp-list) (fourth tmp-list))))
+    (remove-duplicates 
+     (mapcar #'(lambda (almost-fixed)
+		 (string-trim "\""almost-fixed))
+	     (mapcar #'(lambda (non-fix-string-list)
+			 (string-trim "{" (string-trim "}" (string-trim "\""
+									non-fix-string-list))))
+		     (alexandria:flatten (mapcar #'(lambda (d)
+						     (alexandria:flatten (split-sequence:split-sequence #\, d)))
+						 knowledge-string-list))))
+     :test #'equal)))
+
 
 
 #|
@@ -143,6 +164,7 @@
 |#
 
 (defun judge-kma (slide-id)
+  ;; このSlide-idはgoal_vocabraryのID
   (let ((learner-kma (get-slide-kma-attribute slide-id))
 	(teacher-kma (get-slide-errata slide-id)))
     (labels ((kma-check (t-kma l-kma)
@@ -154,53 +176,36 @@
 	    (t "www")))))
 
 (defun judge-knowledge (slide-id lesson-id)
+  ;; このSlide-idはgoal_vocabraryのID
   (let* ((learner-knowledge
-
-	   (mapcar #'(lambda (true-k-str)
-		       
-		       ;; (mapcar #'(lambda (d) 
-		       ;; 		   (string-trim "\"" d))
-		       ;;(split-sequence:split-sequence #\, 
-		       ;; (string-trim "{" (string-trim "}"
-
-#|
-
-
-(format nil "~A" (mapcar #'(lambda (d)
-		     (string-trim "{" (string-trim "}" (string-trim "\"" d))))
-		 (alexandria:flatten
-		  (mapcar #'(lambda (d)
-			      (split-sequence:split-sequence #\, d))
-			  (mlsspbc.resources::judge-knowledge 3 1)))))
-
-|#
-
-
-
-		       
-											    true-k-str);)
-					;)
-		   (remove-if #'(lambda (k-str)
-				  (string= k-str "{}"))
-			      (mapcar #'(lambda (d)
-					  (get-node-knowledge d))
-				      (get-parent-node-ids-from-slide-id slide-id lesson-id)))))
+	   (alexandria:flatten
+	    (mapcar #'(lambda (d)
+			;;(format t "from:~A:to" (get-node-knowledge d))
+			(get-node-knowledge (cadar (select "concept_term_id" "user_concepts" (format nil "node_id=~A" d)))))
+		    (get-parent-node-ids-from-slide-id slide-id lesson-id))))
 			    ;; 学習者が説明しようとしている知識：これをどこまで見るかどうかは議論の余地有り
 	 (teacher-implicit-knowledge (get-slide-implicit-knowledge slide-id))
 	 (teacher-explicit-knowledge (get-slide-explicit-knowledge slide-id))
-	 (teacher-knowledge (append teacher-implicit-knowledge teacher-explicit-knowledge))
-	 (diff (append (set-difference learner-knowledge teacher-knowledge :test #'string=)
-		       (set-difference teacher-knowledge learner-knowledge :test #'string=))))
-    learner-knowledge
-    ;; (mapcar #'(lambda (d)
-    ;; 		(cond ((find d teacher-implicit-knowledge :test #'string=)
-    ;; 		       `(,d "implicit-miss"))
-    ;; 		      ((find d teacher-explicit-knowledge :test #'string=)
-    ;; 		       `(,d "explicit-miss"))
-    ;; 		      ((find d learner-knowledge :test #'string=)
-    ;; 		       `(,d "non-exist-appear"))))
-    ;; 	    diff)
-    ))
+	 (teacher-knowledge (alexandria:flatten (append teacher-implicit-knowledge teacher-explicit-knowledge)))
+	 (diff (remove-duplicates
+		(remove-if #'(lambda (d) (when (string= "" d) t))
+			   (alexandria:flatten
+			    (append
+			     (loop for x in learner-knowledge
+				   when (not (find x teacher-knowledge :test #'equal))
+				     collect x)
+		             (loop for x in teacher-knowledge
+				   when (not (find x learner-knowledge :test #'equal))
+				     collect x))))
+		:test #'equal)))
+    (mapcar #'(lambda (d)
+    		(cond ((find d teacher-implicit-knowledge :test #'equal)
+    		       `("implicit-miss" ,d))
+    		      ((find d teacher-explicit-knowledge :test #'equal)
+    		       `("explicit-miss" ,d))
+    		      ((find d learner-knowledge :test #'equal)
+    		       `("non-exist-appear" ,d))))
+    	    diff)))
 
 
 #|
@@ -218,24 +223,32 @@
 助言適用
 |#
 (defun apply-advice (slide-id lesson-id)
-  (let ((kma-correctness (judge-kma slide-id))
-	(knowledge-coverage (judge-knowledge slide-id lesson-id)))
+  ;; slide-id は
+  (let* ((kma-correctness (judge-kma slide-id))
+	 (knowledge-coverage (judge-knowledge slide-id lesson-id))
+	 (exp-miss-p (when (remove-if-not #'(lambda (d) (equal "explicit-miss" (first d))) knowledge-coverage) t))
+	 (imp-miss-p (when (remove-if-not #'(lambda (d) (equal "implicit-miss" (first d))) knowledge-coverage) t))
+	 (n-appear-p (when (remove-if-not #'(lambda (d) (equal "non-exist-appear" (first d))) knowledge-coverage) t)))
     (cond ((and
+	    ;; (1)
 	    (string= kma-correctness "正しいスライドを正しく理解")
 	    (null knowledge-coverage))
 	   (format nil "よく理解し，説明しようとすることができています．~%この調子で積極的に行間を読み取りましょう"))
 	  ((and
+	    ;; (2)
 	    (string= kma-correctness "正しいスライドを正しく理解")
 	    (null knowledge-coverage))
 	   (format nil "よく理解し，説明しようとすることができています．~%この調子で積極的に行間を読み取りましょう"))
 	  ((and
+	    ;; (3)
 	    (string= kma-correctness "正しいスライドを正しく理解")
 	    (null knowledge-coverage))
 	   (format nil "よく理解し，説明しようとすることができています．~%この調子で積極的に行間を読み取りましょう"))
 	  ((and
+	    ;; (4)
 	    (string= kma-correctness "正しいスライドを正しく理解")
 	    (null knowledge-coverage))
 	   (format nil "よく理解し，説明しようとすることができています．~%この調子で積極的に行間を読み取りましょう"))
-	  (t (format nil "~A" knowledge-coverage)))))
-	  
-  
+	  (t
+	   ;; (例外)
+	   (format nil "~A" knowledge-coverage)))))

@@ -23,15 +23,33 @@ function mouseListen (){
     var yElement = document.getElementById( "pointer-position-y" ) ;
 }
 
+function testCan() {
+  //描画コンテキストの取得
+  var canvas = document.getElementById('test-canvas');
+  if (canvas.getContext) {
+    var context = canvas.getContext('2d');
+    //ここに具体的な描画内容を指定する
+    //図形やイメージの透明度を指定する
+    context.globalAlpha = 0.5;
+    //青い四角形を描く
+    context.fillStyle = "rgb(0, 0, 255)";
+    context.fillRect(20,20,50,50);
+    //赤い四角形を描く
+    context.fillStyle = "rgb(255, 0, 0)";
+    context.fillRect(40,40,50,50);
+  }
+}
+
 $(window).load(function () {	
     mouseListen();
     //makeSigma();
+
 });
 
 
 $(window).load(function(){
     $('#ick25').click(function() {
-        $o("body").css("zoom","25%");
+        $("body").css("zoom","25%");
 	console.log("25");
     });
     $('#ick50').click(function() {

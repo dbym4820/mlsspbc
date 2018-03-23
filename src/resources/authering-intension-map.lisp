@@ -5,8 +5,8 @@
   `(:div :id "container"
 	 (:div :id "m-window" :class "split split-horizontal"
 	       (:div :id "b-window" :class ""
-		     (:div :id "orgChartContainer" ;;インテンションマップ構築スペース
-			   (:div :id "orgChart")))
+		      (:div :id "orgChartContainer" ;;インテンションマップ構築スペース
+			    (:div :id "orgChart")))
 	       (:div :class "gutter gutter-horizontal" :style "width:8px;hight:100%")
 	       (:div :id "c-window" :class "" ;; コンテンツパーツを置いているウィンドウ
 		     (:div :id "print-pointer-position"
@@ -84,6 +84,7 @@
 	 
 	 (:br)
 	 (:br)
+	
 	 (:script :type "text/javascript" :src ,(js-path "cytoscape/save-knowledge.js"))
 	 (:script :type "text/javascript" :src ,(append-root-url "/static/js/window-setting/redirect.js"))
 	 (:script :type "text/javascript" :src ,(append-root-url "/static/js/split-js/setting.js"))
