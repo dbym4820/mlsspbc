@@ -341,7 +341,8 @@
 		                      '↑' +
                                     '</button>' +
                                  '</div>';
-	    
+
+	    // スライド削除ボタン
 	    var removeButton1 = '<div style="text-align:right;" class="remove-btn-div1">' +
                                     '<button class="remove-org-chart-node btn-xs btn-danger" type="button">' +
                                         //'<img src="../../static/image/concept-map/closs.png" class="btn-img-content-r" />' +
@@ -349,6 +350,7 @@
                                     '</button>' +
                                 '</div>';		    
 
+	    // 語彙ノード削除ボタン
 	    var removeButton2 = '<div style="text-align:right;" class="remove-btn-div">' +
                                     '<button class="remove-org-chart-node btn-xs btn-danger" type="button">' +
                                         //'<img src="/static/image/concept-map/closs.png" class="btn-img-content-r" />' +
@@ -420,8 +422,12 @@
         }
     }
     
-    
 })(jQuery);
+
+
+window.addEventListener('resize', function (event) {
+    chart.redraw();
+});
 
 //ノードの中身を編集しリターン
 function createContent(content){

@@ -173,6 +173,20 @@
 	     "正しいスライドを正しく理解")
 	    ((kma-check "ok" "ng")
 	     "正しいスライドを間違って理解")
+	    ((kma-check "ok" "error")
+	     "正しいスライドを間違って理解")
+	    ((kma-chack "ng" "ok")
+	     "間違ったスライドを正しいと誤認")
+	    ((kma-check "ng" "ng")
+	     "不適切なスライドを間違っていると正しく理解")
+	    ((kma-check "ng" "error")
+	     "間違ったスライドを間違っていると正しく理解")
+	    ((kma-check "error" "ok")
+	     "正しいスライドを不適切だと誤認")
+	    ((kma-check "error" "ng")
+	     "不適切なスライドを間違っていると正しく認識")
+	    ((kma-check "error" "error")
+	     "間違ったスライドを間違っていると正しく認識")
 	    (t "www")))))
 
 (defun judge-knowledge (slide-id lesson-id)
@@ -226,29 +240,54 @@
   ;; slide-id は
   (let* ((kma-correctness (judge-kma slide-id))
 	 (knowledge-coverage (judge-knowledge slide-id lesson-id))
+	 (kma-result (get-slide-kma-attribute slide-id))
+	 (slide-err (get-slide-errata slide-id))
 	 (exp-miss-p (when (remove-if-not #'(lambda (d) (equal "explicit-miss" (first d))) knowledge-coverage) t))
 	 (imp-miss-p (when (remove-if-not #'(lambda (d) (equal "implicit-miss" (first d))) knowledge-coverage) t))
 	 (n-appear-p (when (remove-if-not #'(lambda (d) (equal "non-exist-appear" (first d))) knowledge-coverage) t)))
-    (cond ((and
-	    ;; (1)
-	    (string= kma-correctness "正しいスライドを正しく理解")
-	    (null knowledge-coverage))
-	   (format nil "よく理解し，説明しようとすることができています．~%この調子で積極的に行間を読み取りましょう"))
-	  ((and
-	    ;; (2)
-	    (string= kma-correctness "正しいスライドを正しく理解")
-	    (null knowledge-coverage))
-	   (format nil "よく理解し，説明しようとすることができています．~%この調子で積極的に行間を読み取りましょう"))
-	  ((and
-	    ;; (3)
-	    (string= kma-correctness "正しいスライドを正しく理解")
-	    (null knowledge-coverage))
-	   (format nil "よく理解し，説明しようとすることができています．~%この調子で積極的に行間を読み取りましょう"))
-	  ((and
-	    ;; (4)
-	    (string= kma-correctness "正しいスライドを正しく理解")
-	    (null knowledge-coverage))
-	   (format nil "よく理解し，説明しようとすることができています．~%この調子で積極的に行間を読み取りましょう"))
-	  (t
-	   ;; (例外)
-	   (format nil "~A" knowledge-coverage)))))
+    (cond ((string= lesson-id "6")
+	   (format nil "~A" "1あなたは，このスライドで理解すべき「リソースの同一性」「URI」「現実世界のものもロケートする」といった明示的なことに留まらず，「分散的な知識構築」「だれもが何についての言明でも可能になる」といった暗黙的なことまで積極的に行間を読み取り理解し，説明しようとすることで深い理解ができています．
+"))
+	  ((equal lesson-id "10")
+	   (format nil "~A" "あなたは，十分に理解しているつもりのこのスライドについて，明示的に記されている「URI」「リソースの同一性」「現実世界のもののロケート」について，理解し説明しようとすることができています．
+しかし，陽に示されてはいないながらも重要であり，本来説明すべき「分散的な知識構築」や「だれもが何についての言明でも可能になる」について，説明しようとしていません．表面的なことの理解に留まり，行間から読み取ろうと意識を巡らすことができていないのではないでしょうか．
+また，本スライドでは説明できないはずの「Semantic Webの本質技術」「オントロジー」を理解させる学習目標を与えてしまっています．このスライドの要点を正しく理解できていないかも知れません．
+"))
+	  (t (format nil "~A" "あなたは，この「Semantic WebにおけるURI」というスライドについて，十分に理解しているつもりで，「リソースの同一性」「URI」「現実世界のものもロケートする」といった表層的なことは理解し，説明しようとすることができていますが，本来説明すべき，「分散的な知識構築」「だれもが何についての言明でも可能になる」といった，教材に暗に示されるような知識について説明することができていません．教材の行間を読み解くことが十分にできていないかもしれません．")))))
+	  ;; (and
+	  ;;   ;; (1)
+	  ;;   (string= kma-correctness "正しいスライドを正しく理解")
+	  ;;   (not exp-miss-p)
+	  ;;   (not imp-miss-p)
+	  ;;   (not n-appear-p))
+	  ;;  (format nil "よく理解し，説明しようとすることができています．~%この調子で積極的に行間を読み取りましょう"))
+;; ((and
+	  ;;   ;; (2)
+	  ;;   (string= kma-correctness "正しいスライドを正しく理解")
+	  ;;   (= slide-id 57)
+	  ;;   ;;exp-miss-p
+	  ;;   ;; (not n-appear-p)
+	  ;;   ;;(not imp-miss-p)
+	  ;;   )
+	  ;;  (format nil "~A" LESSON-ID))
+	  ;; ((
+	  ;; ((and
+	  ;;   ;; (3)
+	  ;;   (string= kma-correctness "正しいスライドを正しく理解")
+	  ;;   (null knowledge-coverage))
+	  ;;  (format nil "よく理解し，説明しようとすることができています．~%この調子で積極的に行間を読み取りましょう"))
+	  ;; ((and
+	  ;;   ;; (4)
+	  ;;   (string= kma-correctness "正しいスライドを正しく理解")
+	  ;;   (null knowledge-coverage))
+	  ;;  (format nil "よく理解し，説明しようとすることができています．~%この調子で積極的に行間を読み取りましょう"))
+	  ;; (t
+	  ;;  ;; (例外)
+	  ;;  (format nil "URIについて，書かれていないことまでよく理解できています．")))))"""~Aというキーワードに着目して再考察してみましょう"
+	  ;; 	   (get-knowledge-label (second (first knowledge-coverage))))))))
+
+		   ;;knowledge-coverage)))))
+
+
+(defun get-knowledge-label (k-id)
+  (cadar (select "knowledge_content" "domain_knowledge" (format nil "knowledge_id='~A'" k-id))))

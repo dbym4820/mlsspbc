@@ -4,6 +4,16 @@ function draw_line (parent_node_id, child_node_id) {
     let parent_node = $(parent_node_id.replace(/[ !"$%&'()*+,.\/:;<=>?@\[\\\]^`{|}~]/g, "\\$&"));
     let child_node = $(child_node_id.replace(/[ !"$%&'()*+,.\/:;<=>?@\[\\\]^`{|}~]/g, "\\$&"));
 
+    // 語彙が設計エリアにあるかどうかを判定し，パーツ置き場にあれば先は惹かずに，データベースから削除し，Return刷る
+    function checkNodesUsedP(){
+
+    }
+
+
+
+
+
+    
     // Firefox対応用のoffset処理
     
     // 各ノードの座標取得
@@ -37,6 +47,7 @@ function draw_line (parent_node_id, child_node_id) {
 	, line_color: "black"
 	, line_width: "1px"
 	, parent: $("#orgChart")
+	//	, parent: $("#conceptTable")
 	, callback: function(){}};
 
 
@@ -67,8 +78,8 @@ function draw_line (parent_node_id, child_node_id) {
 		"id": id
 	    })
 	    .css({	    
-		"left": parent_node_position_x-50,
-		"top": parent_node_position_y-150,
+		"left": parent_node_position_x,
+		"top": parent_node_position_y-50,
 		"z-index": 1,
 		"width": distance_between_nodes, 
 		"transform": "rotate(" + degree + "deg)",
@@ -94,11 +105,11 @@ function draw_line (parent_node_id, child_node_id) {
 	    })
 	    .css({	    
 		"left": parent_node_position_x-distance_between_nodes,
-		"top": parent_node_position_y-130,
+		"top": parent_node_position_y-50,
 		"z-index": 1,
 		"width": distance_between_nodes,
 
-		//"-webkit-transform": "rotate(" + 86 + "deg)",
+		"-webkit-transform": "rotate(" + 86 + "deg)",
 		
 		"transform": "rotate(" + degree + "deg)",
 		"-webkit-transform": "rotate(" + degree + "deg)",
@@ -114,7 +125,7 @@ function draw_line (parent_node_id, child_node_id) {
     line.append(lineAttrParent, lineAttrChild);// 文字ラベルの追加
  
     // DOMへの追加
-    $(param.parent).prepend(line);
+    $(param.parent).append(line);
 }
 
 // サイドラインの追加描画＋JSONセーブの実行

@@ -24,7 +24,7 @@ function plusIntroTug (){
 	});
 	$(element).attr("data-step", count);
 	count++;
-	$(element).attr("data-position", "left");
+	$(element).attr("data-position", "right");
 	$(element).attr("src", slidePathId);
     });
 }
