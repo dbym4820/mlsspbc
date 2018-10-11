@@ -1,4 +1,4 @@
-(in-package :mlsspbc.resources)
+(in-package :loapeat.resources)
 
 (defun slide-knowledge-struct ()
   (let ((node-id (get-parameter "node-id")))

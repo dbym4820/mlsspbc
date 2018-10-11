@@ -21,4 +21,4 @@ function convertAbsUrl(relativePath){
   return anchor.href;
 }
 
-
+var baseURL = location.pathname+"/../../";

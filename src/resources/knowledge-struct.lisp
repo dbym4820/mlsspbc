@@ -1,4 +1,4 @@
-(in-package :mlsspbc.resources)
+(in-package :loapeat.resources)
 
 ;; 知識ノード
 (defun knowledge-struct ()

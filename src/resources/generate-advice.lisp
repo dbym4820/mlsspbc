@@ -1,4 +1,4 @@
-(in-package :mlsspbc.resources)
+(in-package :loapeat.resources)
 
 (defun get-slide-stub (get-name online-p)
   (if online-p

@@ -1,15 +1,15 @@
 (in-package :cl-user)
-(defpackage mlsspbc.rooting
+(defpackage loapeat.rooting
   (:use :cl :hunchentoot)
   (:import-from :cl-annot
                 :enable-annot-syntax)
-  (:import-from :mlsspbc.config
+  (:import-from :loapeat.config
                 :config :append-root-url)
   ;; (:import-from :hunchentoot
   ;;               :*dispatch-table*
   ;; 		:create-regex-dispatcher
   ;; 		:create-folder-dispatcher-and-handler)
-  (:import-from :mlsspbc.resources
+  (:import-from :loapeat.resources
                 :index :domain-select :domain-create :domain-create-page
 		:lesson-create-page :lesson-create
 		:authering-intension-map :authering-slide :authering-target
@@ -19,7 +19,7 @@
                 :slide-knowledge-operate :slide-knowledge-save
 		:term-knowledge-operate :term-knowledge-save
 		:learner-planning
-                :learner-kma :slide-kma-save
+                :learner-slide-selection :learner-kma :slide-kma-save
 		:learner-collaborate 
                 :generate-advice :knowledge-struct :knowledge-edge :slide-knowledge-struct :slide-knowledge-edge
 		:sign-in :sign-up :sign-process :sign-out-process :register-process
@@ -27,10 +27,16 @@
 		:load-intent-list :save-intent-list :add-intent-list
 		:load-slide-line-list :save-side-line-list
 		:find-parent-node-id
-		:inference-output		
+		:inference-output
+
+		;; API
+   ;; :get-lesson-all-test
 		))
-(in-package :mlsspbc.rooting)
+(in-package :loapeat.rooting)
 (enable-annot-syntax)
+
+(defmacro defroute (url &body page-gen-function)
+  `(create-regex-dispatcher (format nil "^~A$" (append-root-url ,url)) (lambda () ,@page-gen-function)))
 
 @export
 (defun dispatcher ()
@@ -40,73 +46,79 @@
 	 ;; Static Resource Rooting
 	 (create-folder-dispatcher-and-handler (format nil "~A~A" (append-root-url "") "/static/") (config :static-directory))
 
+	 ;; defpageで定義したページはevalする必要あり
 	 ;; Page Rooting
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/")) (lambda () (eval (index))))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/index")) (lambda () (eval (index))))
+	 (defroute "/" (eval (index)))
+	 (defroute "/index" (eval (index)))
 
-         ;; ;; DB
-         ;; (create-static-file-dispatcher-and-handler "/software/aburatani/database" "./databases/database.sqlite")
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/test")) (lambda () (format nil "www")))
+	 (defroute "/domain-select" (eval (domain-select)))
 	 
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/domain-select")) (lambda () (eval (domain-select))))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/domain-create-page")) (lambda () (eval (domain-create-page))))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/domain-create")) (lambda () (eval (domain-create))))
+	 (defroute "/domain-create-page" (eval (domain-create-page)))
+	 (defroute "/domain-create" (eval (domain-create)))
 
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/lesson-create-page")) (lambda () (eval (lesson-create-page))))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/lesson-create")) (lambda () (eval (lesson-create))))
+	 (defroute "/lesson-create-page" (eval (lesson-create-page)))
+	 (defroute "/lesson-create" (eval (lesson-create)))
 	 
 	 ;; Learner Tool
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/learner/learner-planning")) (lambda () (eval (learner-planning))))
-
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/learner/learner-kma")) (lambda () (eval (learner-kma))))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/slide-kma-save")) (lambda () (eval (slide-kma-save))))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/learner/learner-collaborate")) (lambda () (eval (learner-planning))))
+	 (defroute "/learner/learner-planning" (eval (learner-planning)))
+	 (defroute "/learner/learner-slide-selection" (eval (learner-slide-selection)))
+	 (defroute "/learner/learner-kma" (eval (learner-kma)))
+	 (defroute "/slide-kma-save" (eval (slide-kma-save)))
+	 (defroute "/learner/learner-collaborate" (eval (learner-planning)))
 	 
          ;; Get Advice
-         (create-regex-dispatcher (format nil "^~A$" (append-root-url "/generate-advice")) (lambda () (generate-advice)))
+         (defroute "/generate-advice" (generate-advice))
 
 	 ;; Authering Tool
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/authering/authering-intension-map")) (lambda () (eval (authering-intension-map))))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/authering/authering-slide")) (lambda () (eval (authering-slide))))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/authering/upload-slide")) (lambda () (eval (upload-slide))))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/authering/authering-slide-check")) (lambda () (eval (authering-slide-check))))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/authering-kma-save")) (lambda () (eval (authering-kma-save))))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/authering/knowledge-operate")) (lambda () (eval (knowledge-operate))))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/knowledge-save")) (lambda () (eval (knowledge-save))))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/authering/slide-knowledge-operate")) (lambda () (eval (slide-knowledge-operate))))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/slide-knowledge-save")) (lambda () (eval (slide-knowledge-save))))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/authering/term-knowledge-operate")) (lambda () (eval (term-knowledge-operate))))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/term-knowledge-save")) (lambda () (eval (term-knowledge-save))))
+	 (defroute "/authering/authering-intension-map" (eval (authering-intension-map)))
+	 (defroute "/authering/authering-slide" (eval (authering-slide)))
+	 (defroute "/authering/upload-slide" (eval (upload-slide)))
+	 (defroute "/authering/authering-slide-check" (eval (authering-slide-check)))
+	 (defroute "/authering-kma-save" (eval (authering-kma-save)))
+	 (defroute "/authering/knowledge-operate" (eval (knowledge-operate)))
+	 (defroute "/knowledge-save" (eval (knowledge-save)))
+	 (defroute "/authering/slide-knowledge-operate" (eval (slide-knowledge-operate)))
+	 (defroute "/slide-knowledge-save" (eval (slide-knowledge-save)))
+	 (defroute "/authering/term-knowledge-operate" (eval (term-knowledge-operate)))
+	 (defroute "/term-knowledge-save" (eval (term-knowledge-save)))
 	 
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/authering/authering-target")) (lambda () (eval (authering-target))))
+	 (defroute "/authering/authering-target" (eval (authering-target)))
 	 
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/sign-in")) (lambda () (eval (sign-in))))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/sign-up")) (lambda () (eval (sign-up))))
+	 (defroute "/sign-in" (eval (sign-in)))
+	 (defroute "/sign-up" (eval (sign-up)))
 
 	 ;; Function Rooting
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/sign-process")) (lambda () (eval (sign-process))))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/register-process")) (lambda () (eval (register-process))))	 
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/sign-out-process")) (lambda () (eval (sign-out-process))))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/find-parent-node-id")) (lambda () (eval (find-parent-node-id))))
+	 (defroute "/sign-process" (eval (sign-process)))
+	 (defroute "/register-process" (eval (register-process)))
+	 (defroute "/sign-out-process" (eval (sign-out-process)))
+	 (defroute "/find-parent-node-id" (eval (find-parent-node-id)))
 
 	 ;; Static Resource Loader
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/load-concept-map")) (lambda () (eval (load-concept-map))))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/load-intent-list")) (lambda () (eval (load-intent-list))))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/save-concept-map")) (lambda () (eval (save-concept-map))))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/save-intent-list")) (lambda () (eval (save-intent-list))))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/add-intent-list")) (lambda () (eval (add-intent-list))))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/load-slide-line-list")) (lambda () (eval (load-slide-line-list))))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/save-side-line-list")) (lambda () (eval (save-side-line-list))))
+	 (defroute "/load-concept-map" (eval (load-concept-map)))
+	 (defroute "/load-intent-list" (eval (load-intent-list)))
+	 (defroute "/save-concept-map" (eval (save-concept-map)))
+	 (defroute "/save-intent-list" (eval (save-intent-list)))
+	 (defroute "/add-intent-list" (eval (add-intent-list)))
+	 (defroute "/load-slide-line-list" (eval (load-slide-line-list)))
+	 (defroute "/save-side-line-list" (eval (save-side-line-list)))
 	 
 	 ;; Inference output
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/inference-output")) (lambda () (eval (inference-output))))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/knowledge-struct")) (lambda () (knowledge-struct)))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/knowledge-edge")) (lambda () (knowledge-edge)))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/slide-knowledge-struct")) (lambda () (slide-knowledge-struct)))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/slide-knowledge-edge")) (lambda () (slide-knowledge-edge)))
+	 (defroute "/inference-output" (eval (inference-output)))
+	 (defroute "/knowledge-struct" (knowledge-struct))
+	 (defroute "/knowledge-edge" (knowledge-edge))
+	 (defroute "/slide-knowledge-struct" (slide-knowledge-struct))
+	 (defroute "/slide-knowledge-edge" (slide-knowledge-edge))
 
 	 ;; knowledge-list
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/exp-knowledge-list")) (lambda () (exp-knowledge-list)))
-	 (create-regex-dispatcher (format nil "^~A$" (append-root-url "/imp-knowledge-list")) (lambda () (imp-knowledge-list)))
-	 
+	 (defroute "/exp-knowledge-list" (exp-knowledge-list))
+	 (defroute "/imp-knowledge-list" (imp-knowledge-list))
+
+	 ;; APIs
+	 (defroute "/api/semantics" (loapeat.resources.api::get-semantics-api))
+	 (defroute "/api/domains" (loapeat.resources.api::get-domains-api))
+	 (defroute "/api/lessons" (loapeat.resources.api::get-lessons-api))
+	 (defroute "/api/presentations" (loapeat.resources.api::get-presentations-api))
+	 (defroute "/api/post/presentations" (loapeat.resources.api::post-presentaions-api))
+	 (defroute "/api/slides" (loapeat.resources.api::get-slides-api))
+	 (defroute "/api/users" (loapeat.resources.api::get-users-api))
 	 )))

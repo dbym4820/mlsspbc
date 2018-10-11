@@ -1,12 +1,12 @@
 (in-package :cl-user)
-(defpackage mlsspbc.config
+(defpackage loapeat.config
   (:use :cl)
   (:import-from :envy
                 :config-env-var
                 :defconfig)
   (:import-from :cl-annot
 		:enable-annot-syntax))
-(in-package :mlsspbc.config)
+(in-package :loapeat.config)
 (enable-annot-syntax)
 
 ;;; デフォルトのURLがhttp://localhost/aburataniのときなどに対応
@@ -22,7 +22,7 @@
 
 (setf (config-env-var) "APP_ENV")
 
-(defvar *application-root* (asdf:system-source-directory :mlsspbc))
+(defvar *application-root* (asdf:system-source-directory :loapeat))
 
 (defconfig :common
     `(:path-to-database ,(append-root-url (format nil "~A~A" (pathname (merge-pathnames #P"src/databases/" *application-root*)) "database.sqlite"))

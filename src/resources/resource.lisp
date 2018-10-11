@@ -1,19 +1,19 @@
 (in-package :cl-user)
-(defpackage mlsspbc.resources
+(defpackage loapeat.resources
   (:use :cl)
   (:import-from :cl-annot
    :enable-annot-syntax)
   (:import-from :cl-who
                 :with-html-output
                 :html-mode)
-  (:import-from :mlsspbc.db
+  (:import-from :loapeat.db
                 :send-query
 		:select :update :insert :sql-delete)
-  (:import-from :mlsspbc.config
+  (:import-from :loapeat.config
                 :config :append-root-url)
-  (:import-from :mlsspbc.utils
+  (:import-from :loapeat.utils
                 :replace-all-string)
-  (:import-from :mlsspbc.web-utils
+  (:import-from :loapeat.web-utils
                 :request-host
 		:root-url
 		:site-path
@@ -35,6 +35,6 @@
 		:timestamp-day
 		:timestamp-hour
 		:timestamp-minute
-		:timestamp-second))
+                :timestamp-second))
   
-(in-package :mlsspbc.resources)
+(in-package :loapeat.resources)

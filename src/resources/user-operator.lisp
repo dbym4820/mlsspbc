@@ -1,4 +1,4 @@
-(in-package :mlsspbc.resources)
+(in-package :loapeat.resources)
 (enable-annot-syntax)
 
 @export

@@ -1,4 +1,4 @@
-(in-package :mlsspbc.resources)
+(in-package :loapeat.resources)
 
 (defpage sign-in ()
   `(:a :href "#" :data-toggle "" :data-target "#login-modal")

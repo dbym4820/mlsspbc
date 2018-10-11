@@ -1,4 +1,4 @@
-(in-package :mlsspbc.resources)
+(in-package :loapeat.resources)
 
 (defpage domain-create-page ()
   `(:form :action ,(append-root-url "/domain-create") :method "post"

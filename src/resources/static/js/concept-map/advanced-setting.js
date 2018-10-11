@@ -1,4 +1,3 @@
-
 //org-chart記述部本体
 (function($) {
 
@@ -11,6 +10,7 @@
 
     $.fn.orgChart.defaults = {
         data: [{id:1, name:'Root', parent: 0}],
+	nlis: {},
         showControls: false,
         allowEdit: true,
         onAddNode: null,
@@ -21,18 +21,18 @@
 
     $.fn.OrgChart = function($container, opts){
         var data = opts.data;
-        var nodes = {};
+        var nodes = opts.nlis;
         var rootNodes = [];
         this.opts = opts;
         this.$container = $container;
         var self = this;
-
 	
         this.draw = function(){
 	    
             $container.empty().append(rootNodes[0].render(opts));
 
-            $container.find('.node').on('click',function(){		
+            $container.find('.node').on('click',function(){
+		// ノードクリック時の挙動
                 if(self.opts.onClickNode !== null){
                     self.opts.onClickNode(nodes[$(this).attr('node-id')]);
 
@@ -40,16 +40,13 @@
 		    var selectedNode = nodes[$(this).attr('node-id')];
 		    var selectedNodeName = selectedNode.data.name;
 		    
-		    //キーボード操作などにより、オーバーレイが多重起動するのを防止する
+		    //キーボード操作などにより、オーバーレイが多重起動するのを防止
 		    $(this).blur();
 		    if($("#modal-overlay")[0]) return false;
 		    
-		    //オーバーレイ用のHTMLコードを、[body]内の最後に生成する
+		    //オーバーレイ用のHTMLコードを、[body]内の最後に生成する/この時点では隠し
 		    $("body").append('<div id="modal-overlay"></div>');
-		    
-		    
-		    $("#modal-overlay, #modal-close-btn1, #modal-close-btn2").on('click',function(){
-			
+		    $("#modal-overlay, #modal-close-btn1, #modal-close-btn2").on('click',function(){			
 			$("#modal-overlay").fadeOut("fast");
 			$("#modal-content-div").fadeOut("fast");
 			$("#modal-overlay").remove();
@@ -72,13 +69,14 @@
 		    $("#modal-overlay").fadeIn("fast");
 		    $("#modal-content-div").fadeIn("fast");
 
+		    // セマンティクスの描画
 		    clearKnowledgeInsertion();
 		    knowledgeRender();
 		    knowledgeInitialize();
                 }
             });
 
-	    //+ボタン
+	    //↓ボタン
 	    $container.find('.add-org-chart-node').click(function(e){
 		var thisId = $(this).parents('.node').attr('node-id');
 		if(self.opts.onAddNode !== null){
@@ -90,15 +88,19 @@
 		self.redraw();
             });
 
-
-	    //-ボタン
+	    // ↑ボタン
 	    $container.find('.add-node-above').click(function(e){
 
 		var thisId = $(this).parents('.node').attr('node-id');
+		
+		if(typeof thisId === "undefined") {
+		    thisId = $(this).parents('.slide-node').attr('node-id');
+		}
 		var thisNode = self.getNode(thisId);
-		var parentId = eval(checkParentNodeId(thisNode.data.name));
+		var parentId = checkParentNodeId(thisNode.data.id);
 		var nextId = self.newNodePlusReturn("", parentId);
 		self.updateNodeInfo(thisId, thisId, nextId);
+
             });
 
 	    //-ボタン
@@ -118,7 +120,7 @@
                 } else {
                     self.deleteNode(thisId);
                 }
-		this.redraw();
+		self.redraw();
                 e.stopPropagation();
             });
 	    
@@ -135,9 +137,8 @@
 	this.redraw = function(){
 	    this.draw();
 	    // 兄弟リンクの再描画
-	    let sideLineUrlBase = location.pathname+"/../../";
 	    var lessonId = getUrlVars()['lesson-id'];
-	    $.getJSON(sideLineUrlBase+"load-slide-line-list?lesson-id="+lessonId, function(dataList) {
+	    $.getJSON(baseURL+"load-slide-line-list?lesson-id="+lessonId, function(dataList) {
 		dataList.forEach(function(d){
 		    draw_line(d.parent, d.child, d.function);
 		});
@@ -146,6 +147,7 @@
 	}
 	
 	this.updateNode = function(content, nodeId){
+	    // ここはDeprecated
 	    if(content.charAt(0) === "."){
 		$("[node-id ^= '" + nodeId + "']").css('width', '250px');
 		$("[node-id ^= '" + nodeId + "']").css('height', '250px');
@@ -167,8 +169,17 @@
             self.addNode({id: nextId, name: content, parent: parentId});
         }
 
-	this.newNodePlusReturn = function(content, parentId){
+        this.genNewNode = function(content, parentId){
             var nextId = Object.keys(nodes).length;
+            while(nextId in nodes){
+                nextId++;
+            }
+            return {id: nextId, name: content, parent: parentId};
+        }
+
+	
+	this.newNodePlusReturn = function(content, parentId){
+            var nextId = Object.keys(nodes).length; // グラフ全体のノード数計上
             while(nextId in nodes){
                 nextId++;
             }
@@ -187,25 +198,73 @@
             self.draw();
 	}
 
-	this.updateNodeInfo = function(targetId, newNodeId, newParentId){
-	    // nodes[targetId].data.id = newNodeId;
-	    // nodes[targetId].data.parent = newParentId;
-	    let tData;
-	    for(i=0;i<=self.opts.data.length-1;i++){
-		tData = eval(self.opts.data[i].id);
-		if(tData == targetId){	    
-		    self.opts.data[i].id = newNodeId;
-		    self.opts.data[i].parent = newParentId;
+	this.updateNodeInfo = function(targetId, newNodeId, newParentId, nodeObject){
+
+ 	    for(i=0;i<=self.opts.data.length-1;i++){
+		if(self.opts.data[i].id == targetId){
+		    // 押下したノードIDに対応するノードを特定の親の子ノードにすげ替える(木ごと移動する)
+	    
+		    // システム内部での状態の更新
+		    //self.opts.data[i].parent = newParentId;
+		    //nodes[self.opts.data[i].id].parent = newParentId;
+		    let oldParentId = self.opts.data[i].parent;
+		    // 表示上での更新
+		    this.moveNode(targetId, oldParentId, newParentId);
 		}
 	    }
+	    self.redraw();
+	}
 
+	this.nextID = function () {
+	    return Object.keys(nodes).length + 1;
+	}
+	
+	this.moveNode = function(id, oldParentId, newParentId) {
+	    let startId = self.nextID();
+	    // 押下したノードを更新
+	    self.addNode({id: startId, name: self.getNode(id).data.name, parent: newParentId});
+	    // 押下したノード以下のノードを再帰的に更新
+	    self.recursiveAddNode(id, startId); 
+	    self.deleteNode(id); // 元のツリーを削除して転送完了
+	}
+
+	this.recursiveAddNode = function (oldId, newParentId){
+	    if(Object.keys(self.findChilds(oldId)).length !== 0){
+		self.findChilds(oldId).map(function(d){
+		    let newId = self.nextID();
+		    self.addNode({id: newId, name: self.getNode(d).data.name, parent: newParentId});
+		    self.recursiveAddNode(d, newId);
+		});
+	    } else {
+		return 0;
+	    }
+	}
+	
+	this.flatten = function (ary) {
+	    return ary.reduce(function (p, c) {
+		return Array.isArray(c) ? p.concat(self.flatten(c)) : p.concat(c);
+	    }, []);
+	}
+		
+	this.findChilds = function(id) {
+	    // 直系の子ノードだけ取得
+	    let childList = [];
+	    self.getData().forEach(function(data){
+		if(data.parent == id) {
+		    childList.push(data.id);
+		}
+	    });
+	    return childList;
 	}
 
 	this.deleteNode = function(id){
-            for(var i=0;i<nodes[id].children.length;i++){
-                self.deleteNode(nodes[id].data.id);
-            }
 
+	    // 再帰的に子ノードを削除することで，下から順番に削除することを担保している・末尾再帰による最適化
+	    if(Object.keys(self.findChilds(id)).length !== 0){
+		self.findChilds(id).map(function (tmpId){
+		    self.deleteNode(tmpId);
+		});
+	    }
 	    var oldNode = nodes[id].data.name;
 	    if( (oldNode !== "") && (oldNode !== "NEW") && (oldNode !== "NEW\n") && (!oldNode.match("/static/")) ){
 	    	var inNode = '<div class="node-content intension-items" draggable="true" id="' + oldNode + '" ondragstart="f_dragstart(event)">' + oldNode + '</div>';
@@ -265,6 +324,43 @@
             this.children.push(childNode);
         }
 
+	///////////////////////////////////////////////////
+	///////////////////////////////////////////////////
+	///////////////////////////////////////////////////
+	/* this.moveNode = function(oldParentNode, newParentNode){
+	   self.data.parent = newParentNode;
+	   let moveNode = chart.getNode(self.data.id);
+	   //chart.deleteNode(self.data.id);
+	   self.removeSelf();
+	   chart.getNode(newParentNode).children.push(moveNode);
+	   
+	   chart.getNode(oldParentNode).children.forEach(function (d,count){
+	   
+	   if(self.data.id+"" === d.data.id+""){
+	   }
+	   });
+
+	   // 内容の同じ異なるノード（新ノード）を再帰的に構築する
+	   for(var i=0;i<chart.opts.nlis[this.data.id].children.length;i++){
+	   if(self.findChilds(this.data.id)){
+	   self.findChilds(this.data.id).map(function (tmpId){
+	   console.log(chart.genNewNode(this.data.name, newParentNode));
+	   //self.deleteNode(tmpId);
+	   });
+	   }
+	 *         //self.deleteNode(nodes[id].data.id);
+	 *     }
+
+	   } */
+	///////////////////////////////////////////////////
+	///////////////////////////////////////////////////
+	///////////////////////////////////////////////////
+	///////////////////////////////////////////////////
+	
+	this.removeSelf = function(){
+
+	}
+	
         this.removeChild = function(id){
             for(var i=0;i<self.children.length;i++){
                 if(self.children[i].data.id == id){

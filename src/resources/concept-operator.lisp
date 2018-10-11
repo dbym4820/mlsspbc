@@ -1,4 +1,4 @@
-(in-package :mlsspbc.resources)
+(in-package :loapeat.resources)
 
 ;; usage: (get-timestamp (now))
 (defun get-timestamp (current-time)

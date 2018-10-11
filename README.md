@@ -8,16 +8,16 @@ Meta learning support system version 3
 ## Usage
 
 ```
-CL-USER> (ql:quickload :mlsspbc :silent t)
+CL-USER> (ql:quickload :loapeat :silent t)
 
-CL-USER> (mlsspbc:start-system)
+CL-USER> (loapeat:start-system)
 Hunchentoot process has launched by using port: 8000
 NIL
 ```
 
 ```
-$ ros install dbym4820/mlsspbc
-$ mlsspbc
+$ ros install dbym4820/loapeat
+$ loapeat
 ```
 
 ## Author

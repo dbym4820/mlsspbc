@@ -206,6 +206,7 @@
     cursor: move;
     z-index:5;
     border-top: none;
+    border: 1px red solid;
 }
 
 

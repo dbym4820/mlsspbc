@@ -1,4 +1,4 @@
-(in-package :mlsspbc.resources)
+(in-package :loapeat.resources)
 
 ;; (defun get-slide-pathname ()
 ;;   (let* ((base-pathname (format nil "~A~A" *application-root* "static/slide/keynote/test/assets/"))

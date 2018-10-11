@@ -1,0 +1,22 @@
+#!/bin/sh
+#|-*- mode:lisp -*-|#
+#|
+exec ros -Q -- $0 "$@"
+|#
+(progn ;;init forms
+  (ros:ensure-asdf)
+  #+quicklisp (ql:quickload :loapeat :silent t)
+  )
+
+(defpackage :ros.script.loapeat
+  (:use :cl :loapeat))
+(in-package :ros.script.loapeat)
+
+(defun main (&rest argv)
+  (declare (ignorable argv))
+  (loop 
+    initially (progn
+		(swank:create-server :port 4005 :dont-close t)
+		(format t "~A~%" "Swank server has been established at port 4005")
+		(loapeat::start-system 8888 "/software/aburatani"))
+    do (sleep 1)))

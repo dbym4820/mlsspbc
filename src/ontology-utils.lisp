@@ -1,8 +1,8 @@
 (in-package :cl-user)
 
-(defpackage :mlsspbc.ontology-operator
+(defpackage :loapeat.ontology-operator
   (:use :cl :cl-user)
-  (:import-from :mlsspbc.config
+  (:import-from :loapeat.config
 		:config)
   (:import-from :cxml
 		:parse-file)
@@ -10,10 +10,10 @@
                 :enable-annot-syntax)
   (:import-from :cxml-xmls
 		:make-xmls-builder))
-(defpackage :mlsspbc.instance
+(defpackage :loapeat.instance
   (:use :cl :cl-user))
 
-(in-package :mlsspbc.ontology-operator)
+(in-package :loapeat.ontology-operator)
 (enable-annot-syntax)
 
 (defparameter *ontology-file* (format nil "~A~A" (config :document-root) "ontology/anime-ontology.xml"))
@@ -156,8 +156,8 @@
     (defparameter *ontology-list* nil)
     (loop for count from 0 below len
 	  do (let* ((concept-name (nth count concept-list))
-		    (interned-symbol (intern (string-upcase concept-name) :mlsspbc.ontology-operator))
-		    (instance-symbol (intern (string-upcase concept-name) :mlsspbc.instance))
+		    (interned-symbol (intern (string-upcase concept-name) :loapeat.ontology-operator))
+		    (instance-symbol (intern (string-upcase concept-name) :loapeat.instance))
 		    (concept-list (search-concept concept-name)))
 	       (setf *ontology-list* (append *ontology-list* (list
 					     (eval `(defparameter ,instance-symbol
@@ -165,7 +165,7 @@
 								     :class-name (quote ,interned-symbol)
 								     :super-class (quote
 										   ,(when (parent concept-name)
-										      (intern (string-upcase (parent concept-name)) :mlsspbc.ontology-operator)))
+										      (intern (string-upcase (parent concept-name)) :loapeat.ontology-operator)))
 								     :childs (quote ,(childs concept-name))
 								     :id 2
 								     :position-x 100
@@ -173,7 +173,7 @@
 								     :other (quote ,concept-list)))))))))))
 
 (defun instance-detail (instance-name)
-  (let ((instance-symbol (intern (string-upcase instance-name) :mlsspbc.instance)))
+  (let ((instance-symbol (intern (string-upcase instance-name) :loapeat.instance)))
     (format t "CLASS-NAME: ~A~%" (eval `(slot-value ,instance-symbol 'class-name)))
     (format t "SUPER-CLASS: ~A~%" (eval `(slot-value ,instance-symbol 'super-class)))
     (format t "CHILDS-CLASS: ~A~%" (eval `(slot-value ,instance-symbol 'childs)))
@@ -187,11 +187,11 @@
   (let ((instance-symbol
 	  (intern (string-upcase
 		   (eval (if (symbolp instance-name) (symbol-name instance-name) instance-name)))
-		  :mlsspbc.instance))
+		  :loapeat.instance))
         (slot-symbol
 	  (intern (string-upcase
 		   (eval (if (symbolp slot-name) (symbol-name slot-name) slot-name)))
-		  :mlsspbc)))
+		  :loapeat)))
     `(slot-value ,instance-symbol (quote ,slot-symbol))))
 
 

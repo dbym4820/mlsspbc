@@ -1,7 +1,7 @@
 (in-package :cl-user)
-(defpackage mlsspbc.web-utils
+(defpackage loapeat.web-utils
   (:use :cl)
-  (:import-from :mlsspbc.config
+  (:import-from :loapeat.config
                 :config :append-root-url)
   (:import-from :cl-annot
                 :enable-annot-syntax)
@@ -10,7 +10,7 @@
                 :*request*
 		:*session*
 		:post-parameters*))
-(in-package :mlsspbc.web-utils)
+(in-package :loapeat.web-utils)
 (enable-annot-syntax)
 
 ;;; Path to request packet

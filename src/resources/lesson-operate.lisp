@@ -1,4 +1,4 @@
-(in-package :mlsspbc.resources)
+(in-package :loapeat.resources)
 
 (defpage lesson-create-page ()
   `(:div :id "dom-select" :style "height:400px;overflow:scroll;"

@@ -1,4 +1,4 @@
-(in-package :mlsspbc.resources)
+(in-package :loapeat.resources)
 (enable-annot-syntax)
 
 (defun system-name ()
@@ -118,6 +118,10 @@
 		
 		;;; register-window-design
 		(:link :rel "stylesheet" :type "text/css" :href ,(css-path "register.css"))
+
+		;;; lightbox for expand emage on current window
+		(:link :rel "stylesheet" :type "text/css" :href ,(js-path "lightbox/css/lightbox.css"))
+		(:script :type "text/javascript" :src ,(js-path "lightbox/js/lightbox.js"))
 		
                ;;; Favicon
 		(:link :rel "icon" :type "text/css" :href ,(image-path "icon/favicon.ico")))
@@ -315,4 +319,7 @@
 		(:div :id "loaded" :class "loaded"
 		      (:div  :id "container" :class "col-md-12 container"
 			     ,,@body))
+		(:div :class "contextMenu" :id "sideLineMenu"
+		      (:ul
+		       (:li :id "removeLine" "Remove")))
 		(:script :type "text/javascript" :src ,(js-path "test/after-loaded.js")))))))

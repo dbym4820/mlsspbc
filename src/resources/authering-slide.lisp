@@ -1,4 +1,4 @@
-(in-package :mlsspbc.resources)
+(in-package :loapeat.resources)
 
 (defpage authering-slide ()
   `(:form :action ,(append-root-url (format nil "/authering/upload-slide?lesson-id=~A" (get-parameter "lesson-id"))) :method "post" :enctype "multipart/form-data"

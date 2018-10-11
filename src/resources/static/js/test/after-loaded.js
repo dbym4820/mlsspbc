@@ -1,3 +1,20 @@
+function addLightBoxTag(){
+    $('div.slide-node-content.intension-items').each(function(ind, ele){
+	$(ele).wrapInner(function(){
+	    return "<a href='"+ $(ele).attr('id') + "' data-lightbox='slide-cont'></a>" ;
+	});
+    });
+}
+
+function setLightBoxOption(){
+    lightbox.option({
+	'resizeDuration': 0,
+	'fadeDuration': 0,
+	'imageFadeDuration': 0,
+	'wrapAround': true,
+    });
+}
+
 function mouseListen (){   
     
     // マウスイベントを設定
@@ -41,9 +58,12 @@ function testCan() {
 }
 
 $(window).load(function () {	
+
+    
+    addLightBoxTag();
+    setLightBoxOption();
     mouseListen();
     //makeSigma();
-
 });
 
 
@@ -68,4 +88,7 @@ $(window).load(function(){
         $("body").css("zoom","200%");
 	console.log("200");
     });
+    
 });
+
+

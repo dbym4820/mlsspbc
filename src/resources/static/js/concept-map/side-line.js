@@ -1,4 +1,4 @@
-function draw_line (parent_node_id, child_node_id) {
+function draw_line (parent_node_id, child_node_id, new_line_id, functor) {
 
     // ノードIDの取得
     let parent_node = $(parent_node_id.replace(/[ !"$%&'()*+,.\/:;<=>?@\[\\\]^`{|}~]/g, "\\$&"));
@@ -9,11 +9,6 @@ function draw_line (parent_node_id, child_node_id) {
 
     }
 
-
-
-
-
-    
     // Firefox対応用のoffset処理
     
     // 各ノードの座標取得
@@ -32,28 +27,23 @@ function draw_line (parent_node_id, child_node_id) {
     let degree = Math.atan(tall / base) * 180 / Math.PI;
 
     // サイドラインのID設定
-    let date = new Date();
-    let id = ""+date.getYear()+""+date.getMonth()+""+date.getDate()+""+date.getHours()+""+date.getMinutes()+""+date.getSeconds();
+    let id = "";
+    if (new_line_id === "") {
+	let date = new Date();
+	id = ""+date.getYear()+""+date.getMonth()+""+date.getDate()+""+date.getHours()+""+date.getMinutes()+""+date.getSeconds();
+    } else {
+	id = new_line_id;
+    }
 
-    // パラメータ
-    // let param = {
-    // 	line_style: "solid"
-    // 	, line_color: "red"
-    // 	, line_width: "2px"
-    // 	, parent: $("#orgChart")
-    // 	, callback: function(){}};
     let param = {
 	line_style: "dashed"
 	, line_color: "black"
 	, line_width: "1px"
 	, parent: $("#orgChart")
-	//	, parent: $("#conceptTable")
 	, callback: function(){}};
-
-
     
     // 文字表示用ボックス
-    let lineAttrParent = $("<p class='line-attr-parent'></p>");
+    let lineAttrParent = $("<p class='line-attr-parent' style='padding: 0px 4em;'></p>");
     let lineAttrChild = $("<p class='line-attr-child'></p>");
 
     // 順序関係用文字表示
@@ -66,8 +56,6 @@ function draw_line (parent_node_id, child_node_id) {
 	// 時計回りに回転か，逆回りか
         degree = parent_node_position_y > child_node_position_y ? 0 - degree: degree;
 	
-	// lineAttrParent.append("先");
-	// lineAttrChild.append("後");
 	lineAttrParent.append("");
 	lineAttrChild.append("");
 
@@ -75,6 +63,10 @@ function draw_line (parent_node_id, child_node_id) {
 	    .addClass("side-line")
 	    .attr({
 		"draggable": "true",
+		"ondragstart": "f_dragstart(event)",
+		"ondblclick": "removeSideLine("+id+");",
+		"parentId": parent_node_id,
+		"childId": child_node_id,
 		"id": id
 	    })
 	    .css({	    
@@ -95,12 +87,16 @@ function draw_line (parent_node_id, child_node_id) {
 	// 時計回りに回転か，逆回りか
 	degree = parent_node_position_y < child_node_position_y ? 0 - degree: degree;
 	
-	lineAttrParent.append("");
+	lineAttrParent.append();
 	lineAttrChild.append("");
 	line = $("<div></div>")
 	    .addClass("side-line")
 	    .attr({
 		"draggable": "true",
+		"ondragstart": "f_dragstart(event)",
+		"ondblclick": "removeSideLine("+id+");",
+		"parentId": parent_node_id,
+		"childId": child_node_id,
 		"id": id
 	    })
 	    .css({	    
@@ -108,9 +104,7 @@ function draw_line (parent_node_id, child_node_id) {
 		"top": parent_node_position_y-50,
 		"z-index": 1,
 		"width": distance_between_nodes,
-
 		"-webkit-transform": "rotate(" + 86 + "deg)",
-		
 		"transform": "rotate(" + degree + "deg)",
 		"-webkit-transform": "rotate(" + degree + "deg)",
 		"border-top-style": param.line_style,
@@ -145,8 +139,9 @@ function makeLine1(node_Id) {
 	}
 	console.log("１回目");
     } else { // １クリックされている時
-	draw_line(clickedNodeId, new_Node_Id);
-	saveLineList(clickedNodeId, new_Node_Id, "order");
+	let date = new Date();
+	let new_side_id = ""+date.getYear()+""+date.getMonth()+""+date.getDate()+""+date.getHours()+""+date.getMinutes()+""+date.getSeconds();
+	draw_line(clickedNodeId, new_Node_Id, new_side_id);
 	
 	clickFrag = false;
 	clickedNodeId = '';
@@ -154,68 +149,60 @@ function makeLine1(node_Id) {
     }
 }
 
-
-
-
-// Line JSONのセーブ
-function saveLineList(parentId, childId, functor){
-    let sideLineUrlBase = location.pathname+"/../../";
-    var lessonId = getUrlVars()['lesson-id'];
-    $.ajax({
-    	type: 'POST',
-    	url: sideLineUrlBase+"save-side-line-list",
-    	dataType: 'text',
-	data:{ lessonId: lessonId,
-	       parent: parentId.slice(1),
-	       child: childId.slice(1) }
-    }).done(function(data){
-    	console.log(data);
-    }).fail(function(data){
-    	console.log("error");
+function saveSideLine(){
+    let lessonId = getUrlVars()['lesson-id'];
+    let pId = "";
+    let cId = "";
+    $(".side-line").each(function(counter, dom) {
+	pId = dom.attributes.parentid.nodeValue.slice(1);
+	cId = dom.attributes.childid.nodeValue.slice(1);
+	$.ajax({
+    	    type: 'POST',
+    	    url: baseURL+"api/post/presentations",
+    	    dataType: 'text',
+	    data:{
+		purpose: "save-side-line",
+		lessonId: lessonId,
+		lineId: dom.id,
+		parentId: pId,
+		childId: cId,
+		type: "super"
+	    }
+	}).done(function(data){
+    	    console.log("success"+data);
+	}).fail(function(data){
+    	    console.log("error");
+	});	
     });
-
-    // $.getJSON(sideLineUrlBase+"save-side-line-list?lesson-id="+lessonId+"parent="+parent+"&child="+child, function(data) {
-	
-    // });
-    // let newLineStr = "{\"parent\":\""+parent+"\",\"child\":\""+child+"\",\"function\":\""+functor+"\"}";
-    // let jsonObject = "[";
-
-    // 
-    // let sideLineUrlBase = location.pathname+"/../../";
-    // var lessonId = getUrlVars()['lesson-id'];
-    
-    // $.getJSON(sideLineUrlBase+"load-slide-line-list", function(data) {
-    // 	let dataLen = data.length;
-    // 	if(dataLen != 0){
-    // 	    for(let i=0; i<=dataLen-1; i++){
-    // 		jsonObject += "{\"parent\":"+JSON.stringify(data[i].parent) + "," +
-    // 		    "\"child\":"+ JSON.stringify(data[i].child) + "," +
-    // 		    "\"function\":"+ JSON.stringify(data[i].function) + "},";
-    // 	    }
-    // 	}
-    // 	jsonObject += newLineStr + "]";
-    // 	$.ajax({
-    // 	    type: 'POST',
-    // 	    url: sideLineUrlBase+'save-side-line-list',
-    // 	    dataType: 'text',
-    // 	    data:{ dat: jsonObject},
-    // 	}).done(function(data){
-    // 	    console.log("success");
-    // 	}).fail(function(data){
-    // 	    alert("error");
-    // 	});
-    // });
 }
 
 
 $(window).load(function(){
-    
+
     // 兄弟リンクの描画
-    let sideLineUrlBase = location.pathname+"/../../";
     var lessonId = getUrlVars()['lesson-id'];
-    $.getJSON(sideLineUrlBase+"load-slide-line-list?lesson-id="+lessonId, function(dataList) {
+    //$.getJSON(baseURL+"load-slide-line-list?lesson-id="+lessonId, function(dataList) {
+    $.getJSON(baseURL+"api/presentations?purpose=construct-side-line&lesson-id="+lessonId, function(dataList) {
 	dataList.forEach(function(d){
-	    draw_line(d.parent, d.child, d.function);
+	    draw_line(d.parent, d.child, d.edgeId, d.functor);
 	});
     });
 });
+
+function removeSideLine (lineId) {
+    $('#'+lineId).remove(); 
+    alert(lineId+"のラインをけした");
+    $.ajax({
+    	type: 'POST',
+    	url: baseURL+"api/post/presentations",
+    	dataType: 'text',
+	data:{
+	    purpose: "delete-side-line",
+	    lineId: ""+lineId
+	}
+	}).done(function(data){
+    	    console.log(data);
+	}).fail(function(data){
+    	    console.log(data);
+	});	
+}

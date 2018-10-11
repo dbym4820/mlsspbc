@@ -1,7 +1,7 @@
 (in-package :cl-user)
-(defpackage mlsspbc.db
+(defpackage loapeat.db
   (:use :cl)
-  (:import-from :mlsspbc.config
+  (:import-from :loapeat.config
                 :config)
   (:import-from :cl-annot
                 :enable-annot-syntax)
@@ -10,7 +10,7 @@
 		:prepare :fetch :execute)
   (:import-from :cl-json
 		:decode-json-from-string))
-(in-package :mlsspbc.db)
+(in-package :loapeat.db)
 
 (enable-annot-syntax)
 

@@ -1,4 +1,4 @@
-(in-package :mlsspbc.resources)
+(in-package :loapeat.resources)
 
 (defunction-page register-process
   (let* ((posted-email (post-parameter "email"))

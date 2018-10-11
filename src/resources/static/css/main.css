@@ -87,3 +87,13 @@ div#declare-time-slide-highlight{
 
     padding-top: 50px;
 }
+
+div#slide-sel {
+    float:left;
+    width:600px;
+}
+
+div#slide-sel > img.slide-image {
+    margin: 100px;
+}
+

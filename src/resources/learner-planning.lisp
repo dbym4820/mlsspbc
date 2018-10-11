@@ -1,4 +1,4 @@
-(in-package :mlsspbc.resources)
+(in-package :loapeat.resources)
 
 (defpage learner-planning ()
   `(:br)
@@ -45,7 +45,8 @@
 	 (domain-id (cadar (select "domain_id" "lessons" (format nil "lesson_id=\"~A\"" lesson-id))))
 	 (slide-pathname (mapcar #'cadr (select "slide_path" "domain_slide" (format nil "domain_id=\"~A\"" domain-id)))))
     (loop for x in slide-pathname
-	  do (push `(:img :id ,x :class "slide-image intension-items" :ondragstart "f_dragstart(event)" :src ,x) code))
+	  do (push `(:a :href ,x :data-lightbox "slide" :rel "lightbox"
+			(:img :id ,x :class "slide-image intension-items" :ondragstart "f_dragstart(event)" :src ,x)) code))
     (setf result-code-list (reverse code))
     (push "slide-rows" result-code-list)
     (push :id result-code-list)

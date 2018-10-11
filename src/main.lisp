@@ -1,8 +1,8 @@
 (in-package :cl-user)
-(defpackage mlsspbc
+(defpackage loapeat
   (:use :cl :hunchentoot)
   (:nicknames :slm)
-  (:import-from :mlsspbc.config
+  (:import-from :loapeat.config
                 :config
 		:set-root-url)
   (:import-from :hunchentoot
@@ -12,9 +12,9 @@
 		:create-regex-dispatcher :*dispatch-table*)
   (:import-from :cl-annot
                 :enable-annot-syntax)
-  (:import-from :mlsspbc.rooting
+  (:import-from :loapeat.rooting
                 :dispatcher))
-(in-package :mlsspbc)
+(in-package :loapeat)
 (enable-annot-syntax)
 
 @export

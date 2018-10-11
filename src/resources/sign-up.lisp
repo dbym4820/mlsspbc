@@ -1,4 +1,4 @@
-(in-package :mlsspbc.resources)
+(in-package :loapeat.resources)
 
 (defpage-no-redirect sign-up ()
   `(:div :id "reg"

@@ -1,4 +1,4 @@
-(in-package :mlsspbc.resources)
+(in-package :loapeat.resources)
 
 (defpage authering-target ()
   `(:ul :class "nav nav-tabs" :id "tabs"

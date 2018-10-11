@@ -14,7 +14,8 @@ function knowledgeRender(){
     
     // create an array with nodes
     $.ajax({
-	url: location.pathname+'/../../knowledge-struct?node-content='+nodeContent+'&lesson-id='+lessonId,
+	//url: location.pathname+'/../../knowledge-struct?node-content='+nodeContent+'&lesson-id='+lessonId,
+	url: location.pathname+'/../../api/semantics?purpose=construct-auth-semantics&content='+nodeContent,
 	dataType: 'text',
 	async: false,
 	success: function(data){

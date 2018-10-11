@@ -1,11 +1,11 @@
 (in-package :cl-user)
-(defpackage mlsspbc.utils
+(defpackage loapeat.utils
   (:use :cl)
-  (:import-from :mlsspbc.config
+  (:import-from :loapeat.config
    :config)
   (:import-from :cl-annot
 		:enable-annot-syntax))
-(in-package :mlsspbc.utils)
+(in-package :loapeat.utils)
 (enable-annot-syntax)
 
 @export
